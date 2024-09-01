@@ -32,14 +32,13 @@ const MainLayout = ({ children }) => {
         <SideBar />
       </div>
       <div style={{ width: '100%', display: 'inline-block', verticalAlign: 'top' }}>
-
         <div style={{ position: 'absolute', left: 249, top: 0, right: 0 }}>
           <header
             style={{ background: 'black', height: 80, width: '100%', paddingTop: 7, paddingBottom: 7, position: 'fixed' }}
           >
             <img src={logo} height={80} style={{ paddingRight: 250 }} />
           </header>
-          <div style={{ paddingRight: 20, paddingBottom: 400, paddingLeft: 20, paddingTop: 200 }}>
+          <div style={{ paddingRight: 20, paddingBottom: 0, paddingLeft: 20, paddingTop: 0, minHeight: '100vh'}}>
             {children}
           </div>
           <footer
