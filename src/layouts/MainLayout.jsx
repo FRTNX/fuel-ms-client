@@ -38,27 +38,7 @@ const MainLayout = ({ children }) => {
           >
             <img src={logo} height={80} style={{ paddingRight: 250 }} />
           </header>
-          <div style={{ paddingRight: 20, paddingBottom: 0, paddingLeft: 20, paddingTop: 0, minHeight: '100vh'}}>
-            {children}
-          </div>
-          <footer
-            style={{
-              background: 'black',
-              height: 250,
-              width: '100%'
-            }}
-          >
-            {/* <img src={logo} width={80} /> */}
-            <div style={{ paddingTop: 40}}>
-              <GridLoader
-                color='white'
-                size={40}
-              />
-            </div>
-            <p style={{ color: 'white', fontSize: 15 }}>
-              &copy; {`${new Date().getFullYear()} Screature Tech PLC`}
-            </p>
-          </footer>
+         
         </div>
 
       </div>
