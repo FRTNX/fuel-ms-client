@@ -11,7 +11,7 @@ const Item = ({ icon, text }) => {
   const dividerColor = DIVCOLOR;
 
   return (
-    <div style={{ width: '100%', borderBottom: `3px solid ${dividerColor}`, fontSize: 13, textAlign: 'left' }}>
+    <div style={{ width: '100%', borderBottom: `2px solid ${dividerColor}`, fontSize: 13, textAlign: 'left' }}>
       <div style={{ display: 'inline-block', fontSize: 15, }}>
         {icon}
       </div>
@@ -76,7 +76,7 @@ const SideBar = ({ open }) => {
           },
         }}
       >
-        <p style={{ fontSize: 15, color: DIVCOLOR}}>Fuel Monitoring System</p>
+        <p style={{ fontSize: 15, color: DIVCOLOR, paddingTop: 10}}></p>
         <MenuItem>
           <Item icon={<FaTruck />} text={'Vehicles'}/>
         </MenuItem>

@@ -35,11 +35,14 @@ const Home = () => {
 
   return (
     <MainLayout>
-      <div style={{ background: '#2c2a2a', height: '100%', width: '100%', paddingTop: 1 }}>
+      <div style={{ background: '#2c2a2a', height: '100%', width: '100%', paddingTop: 100 }}>
         <h1>In the beginning...</h1>
         <div >
-          <p>
-            There was code. Lots and lots of code. And we're busy writing it 🚀
+          <p className='card'>
+            There was code. Lots and lots of code.
+            <p>
+              And we're busy writing it 🚀
+            </p>
           </p>
         </div>
         <p className="read-the-docs">

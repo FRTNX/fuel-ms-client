@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import SideBar from "../components/Sidebar";
 import logo from '../assets/images/logo-sym.jpg'
 
-import { MdMenu } from "react-icons/md";
+import { MdMenu, MdMenuOpen } from "react-icons/md";
+import { AiOutlineMenu, AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 
 import {
   GridLoader,
@@ -37,7 +38,7 @@ const closedSidebarStyle = {
 }
 
 const MainLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 500 ? true : false);
 
   const toggleSidebar = () => {
     if (sidebarOpen) {
@@ -55,7 +56,12 @@ const MainLayout = ({ children }) => {
         <header style={{ background: 'black', height: '100%' }}>
           <div style={{ paddingTop: 12 }}>
             <button style={{ color: '#FCDE5A', float: 'left', padding: 0, background: 'black' }} onClick={() => toggleSidebar()}>
-              <MdMenu size={36} style={{ paddingTop: 3 }} />
+              {
+                sidebarOpen && (<MdMenuOpen size={36} style={{ paddingTop: 3 }} />)
+              }
+              {
+                !sidebarOpen && (<MdMenu size={36} style={{ paddingTop: 3 }} />)
+              }
             </button>
           </div>
           <img src={logo} height={80} />
