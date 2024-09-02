@@ -41,12 +41,14 @@ const MainLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 500 ? true : false);
 
   const toggleSidebar = () => {
-    if (sidebarOpen) {
-      setSidebarOpen(false);
-    }
-
-    else {
-      setSidebarOpen(true)
+    if (window.innerWidth > 500) {
+      if (sidebarOpen) {
+        setSidebarOpen(false);
+      }
+  
+      else {
+        setSidebarOpen(true)
+      }
     }
   }
 
