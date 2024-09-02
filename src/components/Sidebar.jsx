@@ -5,17 +5,17 @@ import bglog from '../assets/images/logo-text.jpg';
 
 import { FaCar, FaUsers, FaChartLine, FaTruck } from 'react-icons/fa';
 
-const DIVCOLOR = '#dddd64';
+const DIVCOLOR = '#FCDE5A';
 
 const Item = ({ icon, text }) => {
   const dividerColor = DIVCOLOR;
 
   return (
-    <div style={{ width: '100%', borderBottom: `3px solid ${dividerColor}`, fontSize: 13 }}>
-      <div style={{ width: '15%', display: 'inline-block', fontSize: 15, }}>
+    <div style={{ width: '100%', borderBottom: `3px solid ${dividerColor}`, fontSize: 13, textAlign: 'left' }}>
+      <div style={{ display: 'inline-block', fontSize: 15, }}>
         {icon}
       </div>
-      <div style={{ width: '85%', display: 'inline-block' }}>
+      <div style={{  display: 'inline-block', paddingLeft: 10 }}>
         <p style={{}}>{text}</p>
       </div>
     </div>
@@ -47,9 +47,9 @@ const SideBar = () => {
       collapsedWidth={'0'}
       backgroundColor='black'
       //   image={bglog}
-      rootStyles={{ height: '100vh', position: 'fixed', left: 0, top: 0, border: 'none', textAlign: 'left' }}
+      rootStyles={{ height: '100%', border: 'none'}}
     >
-      <div style={{ paddingTop: 20, paddingBottom: 0, paddingLeft: 10 }}>
+      <div style={{ paddingTop: 20, paddingBottom: 0, paddingLeft: 0 }}>
         <img src={bglog} width={222} onClick={<Link to={'/'} />} />
       </div>
       <Menu
@@ -76,7 +76,7 @@ const SideBar = () => {
           },
         }}
       >
-        <p style={{ fontSize: 15, paddingLeft: 41, color: DIVCOLOR}}>Fuel Monitoring System</p>
+        <p style={{ fontSize: 15, color: DIVCOLOR}}>Fuel Monitoring System</p>
         <MenuItem>
           <Item icon={<FaTruck />} text={'Vehicles'}/>
         </MenuItem>

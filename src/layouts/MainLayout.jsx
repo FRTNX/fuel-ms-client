@@ -26,7 +26,7 @@ import {
 
 const MainLayout = ({ children }) => {
   console.log('received children: ', children)
-  return (
+  const x = (
     <div style={{ width: '100%', textAlign: 'center' }}>
       <div style={{ width: '16%', display: 'inline-block', verticalAlign: 'top' }}>
         <SideBar />
@@ -38,11 +38,45 @@ const MainLayout = ({ children }) => {
           >
             <img src={logo} height={80} style={{ paddingRight: 250 }} />
           </header>
-         
+          <div>
+            {children}
+          </div>
+
         </div>
-
       </div>
+    </div>
+  )
 
+  return (
+    <div class="grid-container">
+      <div class="item1">
+        <header style={{ background: 'black', height: '100%' }}>
+          <img src={logo} height={80} />
+        </header>
+      </div>
+      <div class="item2">
+        <SideBar />
+      </div>
+      <div class="item3">{children}</div>
+      <div class="item5">
+        <footer
+          style={{
+            background: 'black',
+            height: '100%',
+            width: '100%'
+          }}
+        >
+          <div style={{ paddingTop: 40 }}>
+            <GridLoader
+              color='white'
+              size={40}
+            />
+          </div>
+          <p style={{ color: 'white', fontSize: 15 }}>
+            &copy; {`${new Date().getFullYear()} Screature Tech PLC`}
+          </p>
+        </footer>
+      </div>
     </div>
   )
 
