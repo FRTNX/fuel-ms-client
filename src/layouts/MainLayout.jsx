@@ -1,5 +1,9 @@
+import { useState, useEffect } from "react";
+
 import SideBar from "../components/Sidebar";
 import logo from '../assets/images/logo-sym.jpg'
+
+import { MdMenu } from "react-icons/md";
 
 import {
   GridLoader,
@@ -24,46 +28,49 @@ import {
   CircleLoader
 } from 'react-spinners';
 
-const MainLayout = ({ children }) => {
-  console.log('received children: ', children)
-  const x = (
-    <div style={{ width: '100%', textAlign: 'center' }}>
-      <div style={{ width: '16%', display: 'inline-block', verticalAlign: 'top' }}>
-        <SideBar />
-      </div>
-      <div style={{ width: '100%', display: 'inline-block', verticalAlign: 'top' }}>
-        <div style={{ position: 'absolute', left: 249, top: 0, right: 0 }}>
-          <header
-            style={{ background: 'black', height: 80, width: '100%', paddingTop: 7, paddingBottom: 7, position: 'fixed' }}
-          >
-            <img src={logo} height={80} style={{ paddingRight: 250 }} />
-          </header>
-          <div>
-            {children}
-          </div>
+const openSidebarStyle = {
+  // display: 
+}
 
-        </div>
-      </div>
-    </div>
-  )
+const closedSidebarStyle = {
+
+}
+
+const MainLayout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    if (sidebarOpen) {
+      setSidebarOpen(false);
+    }
+
+    else {
+      setSidebarOpen(true)
+    }
+  }
 
   return (
-    <div class="grid-container">
+    <div class={sidebarOpen ? "grid-container" : "grid-container-closed"}>
       <div class="item1">
         <header style={{ background: 'black', height: '100%' }}>
+          <div style={{ paddingTop: 12 }}>
+            <button style={{ color: '#FCDE5A', float: 'left', padding: 0, background: 'black' }} onClick={() => toggleSidebar()}>
+              <MdMenu size={36} style={{ paddingTop: 3 }} />
+            </button>
+          </div>
           <img src={logo} height={80} />
         </header>
       </div>
       <div class="item2">
-        <SideBar />
+        <SideBar open={sidebarOpen} />
       </div>
       <div class="item3">{children}</div>
       <div class="item5">
         <footer
           style={{
             background: 'black',
-            height: '100%',
-            width: '100%'
+            // height: '100%',
+            // width: '100%'
           }}
         >
           <div style={{ paddingTop: 40 }}>

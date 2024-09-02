@@ -35,7 +35,7 @@ const Home = () => {
 
   return (
     <MainLayout>
-      <div style={{ background: '#ffffffde', height: '100%', width: '100%', paddingTop: 1 }}>
+      <div style={{ background: '#2c2a2a', height: '100%', width: '100%', paddingTop: 1 }}>
         <h1>In the beginning...</h1>
         <div >
           <p>

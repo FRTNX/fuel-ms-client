@@ -22,7 +22,7 @@ const Item = ({ icon, text }) => {
   )
 }
 
-const SideBar = () => {
+const SideBar = ({ open }) => {
   const [sidebarHeight, setSidebarHeight] = useState();
   const dividerColor = DIVCOLOR;
 
@@ -43,7 +43,7 @@ const SideBar = () => {
   return (
     <Sidebar
       className='sidebar'
-      collapsed={false}
+      collapsed={!open}
       collapsedWidth={'0'}
       backgroundColor='black'
       //   image={bglog}
