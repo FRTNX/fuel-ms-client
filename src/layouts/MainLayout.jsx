@@ -54,7 +54,7 @@ const MainLayout = ({ children }) => {
     <div class={sidebarOpen ? "grid-container" : "grid-container-closed"}>
       <div class="item1">
         <header style={{ background: 'black', height: '100%' }}>
-          <div style={{ paddingTop: 12 }}>
+          <div style={{ paddingTop: 14 }}>
             <button style={{ color: '#FCDE5A', float: 'left', padding: 0, background: 'black' }} onClick={() => toggleSidebar()}>
               {
                 sidebarOpen && (<MdMenuOpen size={36} style={{ paddingTop: 3 }} />)

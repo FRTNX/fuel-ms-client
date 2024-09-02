@@ -11,11 +11,11 @@ const Item = ({ icon, text }) => {
   const dividerColor = DIVCOLOR;
 
   return (
-    <div style={{ width: '100%', borderBottom: `2px solid ${dividerColor}`, fontSize: 13, textAlign: 'left' }}>
+    <div style={{ width: '100%', borderBottom: `3px solid ${dividerColor}`, fontSize: 13, textAlign: 'left' }}>
       <div style={{ display: 'inline-block', fontSize: 15, }}>
         {icon}
       </div>
-      <div style={{  display: 'inline-block', paddingLeft: 10 }}>
+      <div style={{ display: 'inline-block', paddingLeft: 10 }}>
         <p style={{}}>{text}</p>
       </div>
     </div>
@@ -47,7 +47,7 @@ const SideBar = ({ open }) => {
       collapsedWidth={'0'}
       backgroundColor='black'
       //   image={bglog}
-      rootStyles={{ height: '100%', border: 'none'}}
+      rootStyles={{ height: '100%', border: 'none' }}
     >
       <div style={{ paddingTop: 20, paddingBottom: 0, paddingLeft: 0 }}>
         <img src={bglog} width={222} onClick={<Link to={'/'} />} />
@@ -76,15 +76,15 @@ const SideBar = ({ open }) => {
           },
         }}
       >
-        <p style={{ fontSize: 15, color: DIVCOLOR, paddingTop: 10}}></p>
+        <p style={{ fontSize: 15, color: DIVCOLOR, paddingTop: 5 }}></p>
         <MenuItem>
-          <Item icon={<FaTruck />} text={'Vehicles'}/>
+          <Item icon={<FaTruck />} text={'Vehicles'} />
         </MenuItem>
         <MenuItem>
-          <Item icon={<FaUsers />} text={'Drivers'}/>
+          <Item icon={<FaUsers />} text={'Drivers'} />
         </MenuItem>
         <MenuItem>
-          <Item icon={<FaChartLine />} text={'Insights'}/>
+          <Item icon={<FaChartLine />} text={'Insights'} />
         </MenuItem>
       </Menu>
     </Sidebar>
