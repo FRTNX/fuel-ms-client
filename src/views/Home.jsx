@@ -29,25 +29,24 @@ import {
 } from 'react-spinners';
 import MainLayout from '../layouts/MainLayout'
 
+import Vehicles from './Vehicles';
+
 
 const Home = () => {
   const [count, setCount] = useState(0)
 
   return (
     <MainLayout>
-      <div style={{ background: '#2c2a2a', height: '100%', width: '100%', paddingTop: 100 }}>
-        <h1>In the beginning...</h1>
-        <div >
-          <p className='card'>
-            There was code. Lots and lots of code.
-            <p>
-              And we're busy writing it 🚀
-            </p>
-          </p>
+      <div style={{ background: '#2c2a2a', height: '100%', width: '100%', borderRadius: 15 }}>
+        <div style={{ padding: 10, paddingBottom: 32 }}>
+          <Vehicles />
         </div>
-        <p className="read-the-docs">
+        {/* <div style={{ paddingBottom: 40 }}>
+          <Vehicles />
+        </div> */}
+        {/* <p className="read-the-docs">
           Watch this space for new features.
-        </p>
+        </p> */}
       </div>
     </MainLayout>
   )

@@ -74,13 +74,7 @@ const MainLayout = ({ children }) => {
       </div>
       <div class="item3">{children}</div>
       <div class="item5">
-        <footer
-          style={{
-            background: 'black',
-            // height: '100%',
-            // width: '100%'
-          }}
-        >
+        <footer style={{ background: 'black' }}>
           <div style={{ paddingTop: 40 }}>
             <GridLoader
               color='white'
