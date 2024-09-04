@@ -21,18 +21,23 @@ import { SiEventstore } from 'react-icons/si';
 
 import logo from '../assets/images/logo-text.jpg';
 
-const data = [
-  { 'c1': 8, 'c2': 7, 'c3': 6, 'c4': 0, 'c5': 1 },
-  { 'c1': 11, 'c2': 11, 'c3': 2, 'c4': 12, 'c5': 6 },
-  { 'c1': 4, 'c2': 4, 'c3': 4, 'c4': 7, 'c5': 8 },
-  { 'c1': 9, 'c2': 16, 'c3': 9, 'c4': 11, 'c5': 9 },
-  { 'c1': 14, 'c2': 9, 'c3': 15, 'c4': 10, 'c5': 13 },
-  { 'c1': 20, 'c2': 11, 'c3': 12, 'c4': 20, 'c5': 16 },
-  { 'c1': 16, 'c2': 19, 'c3': 14, 'c4': 12, 'c5': 14 },
-  { 'c1': 17, 'c2': 15, 'c3': 17, 'c4': 21, 'c5': 24 },
-  { 'c1': 25, 'c2': 18, 'c3': 21, 'c4': 21, 'c5': 19 },
-  { 'c1': 21, 'c2': 27, 'c3': 21, 'c4': 20, 'c5': 23 }
-];
+const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+const generateData = (params, variation=10, rows=10) => {
+  const d = [];
+  let minValue = 0;
+  let maxValue = variation;
+  for (let i=0; i < rows; i++) {
+    const datapoint = { };
+    params.map((param) => 
+      datapoint[param] = random(minValue, maxValue)
+    )
+    d.push(datapoint)
+    minValue += 1;
+    maxValue += 1;
+  }
+  return d;
+}
 
 const VehicleItem = ({ avatar, primary, secondary }) => {
 
@@ -59,7 +64,7 @@ const VehicleData = ({ p }) => {
         secondary={14}
       />
       <VehicleItem
-        avatar={<GiMountainRoad style={{ background: 'green', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<GiMountainRoad style={{ background: '#82ca9d', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Active'}
         secondary={7}
       />
@@ -69,7 +74,7 @@ const VehicleData = ({ p }) => {
         secondary={1}
       />
       <VehicleItem
-        avatar={<SiEventstore style={{ background: '#FCDE5A', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<SiEventstore style={{ background: '#212121', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Events'}
         secondary={2}
       />
@@ -78,6 +83,7 @@ const VehicleData = ({ p }) => {
 }
 
 const VehicleChart = ({ p }) => {
+  const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], 15);
 
   return (
     <div style={{ padding: p || 40 }}>

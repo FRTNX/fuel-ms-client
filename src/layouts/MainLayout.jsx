@@ -78,7 +78,7 @@ const MainLayout = ({ children }) => {
           <div style={{ paddingTop: 40 }}>
             <GridLoader
               color='white'
-              size={40}
+              size={30}
             />
           </div>
           <p style={{ color: 'white', fontSize: 15 }}>
