@@ -144,6 +144,26 @@
     background-color: #000000;
     padding: 10px;
   }
+  ::-webkit-scrollbar {
+    /* -webkit-appearance: auto; */
+    /* background: #000000;
+    color: #FCDE5A; */
+    background: #000;
+    width: 5px;
+    /* height: 20px; */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    /* background: #000000; */
+    background-color: #FCDE5A;
+    border-radius: 15px;
+    height: 20px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    /* background: #000000; */
+    background-color: black
+  }
 }
 
 .card {
@@ -154,5 +174,3 @@
 .read-the-docs {
   color: #888;
 }
-
-

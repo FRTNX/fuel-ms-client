@@ -111,6 +111,11 @@ const VehicleTable = ({ mobile }) => {
     { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
     { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
     { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
+    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
+    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
+    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
+    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
+    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
   ])
 
 
