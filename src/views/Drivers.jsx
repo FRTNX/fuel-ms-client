@@ -22,16 +22,16 @@ import { SiEventstore } from 'react-icons/si';
 import logo from '../assets/images/logo-text.jpg';
 
 const data = [
-  { 'c1': 8, 'c2': 7, 'c3': 6, 'c4': 0, 'c5': 1 },
-  { 'c1': 11, 'c2': 11, 'c3': 2, 'c4': 12, 'c5': 6 },
-  { 'c1': 4, 'c2': 4, 'c3': 4, 'c4': 7, 'c5': 8 },
-  { 'c1': 9, 'c2': 16, 'c3': 9, 'c4': 11, 'c5': 9 },
-  { 'c1': 14, 'c2': 9, 'c3': 15, 'c4': 10, 'c5': 13 },
-  { 'c1': 20, 'c2': 11, 'c3': 12, 'c4': 20, 'c5': 16 },
-  { 'c1': 16, 'c2': 19, 'c3': 14, 'c4': 12, 'c5': 14 },
-  { 'c1': 17, 'c2': 15, 'c3': 17, 'c4': 21, 'c5': 24 },
-  { 'c1': 25, 'c2': 18, 'c3': 21, 'c4': 21, 'c5': 19 },
-  { 'c1': 21, 'c2': 27, 'c3': 21, 'c4': 20, 'c5': 23 }
+  {'c1': 8, 'c2': 7, 'c3': 6, 'c4': 0, 'c5': 1},
+  {'c1': 11, 'c2': 11, 'c3': 2, 'c4': 12, 'c5': 6},
+  {'c1': 4, 'c2': 4, 'c3': 4, 'c4': 7, 'c5': 8},
+  {'c1': 9, 'c2': 16, 'c3': 9, 'c4': 11, 'c5': 9},
+  {'c1': 14, 'c2': 9, 'c3': 15, 'c4': 10, 'c5': 13},
+  {'c1': 20, 'c2': 11, 'c3': 12, 'c4': 20, 'c5': 16},
+  {'c1': 16, 'c2': 19, 'c3': 14, 'c4': 12, 'c5': 14},
+  {'c1': 17, 'c2': 15, 'c3': 17, 'c4': 21, 'c5': 24},
+  {'c1': 25, 'c2': 18, 'c3': 21, 'c4': 21, 'c5': 19},
+  {'c1': 21, 'c2': 27, 'c3': 21, 'c4': 20, 'c5': 23}
 ];
 
 const VehicleItem = ({ avatar, primary, secondary }) => {
@@ -41,7 +41,7 @@ const VehicleItem = ({ avatar, primary, secondary }) => {
       <div style={{ paddingRight: 10, display: 'inline-block' }}>
         {avatar}
       </div>
-      <div style={{ display: 'inline-block' }}>
+      <div style={{ fontSize: 16, display: 'inline-block' }}>
         <p style={{ marginBottom: 0, lineHeight: 1.5 }}>{primary} <br /> {secondary}</p>
       </div>
     </div>
@@ -51,7 +51,7 @@ const VehicleItem = ({ avatar, primary, secondary }) => {
 const VehicleData = ({ p }) => {
 
   return (
-    <div style={{ padding: 40, fontSize: 13, textAlign: 'left' }}>
+    <div style={{ padding: 40, fontSize: 20, textAlign: 'left' }}>
       {/* <p>  Vehicles: 14</p> */}
       <VehicleItem
         avatar={<FaCar style={{ background: '#FCDE5A', color: 'black', borderRadius: 50, padding: 10 }} />}
@@ -73,6 +73,19 @@ const VehicleData = ({ p }) => {
         primary={'Events'}
         secondary={2}
       />
+      <div style={{ paddingTop: 10 }}>
+        <div style={{ display: 'inline-block', paddingRight: 10, }}>
+          <button style={{ background: '#FCDE5A', color: 'black', fontSize: 13 }}>
+            Add Vehicle
+          </button>
+        </div>
+        <div style={{ display: 'inline-block' }}>
+          <button style={{ background: '#FCDE5A', color: 'black', fontSize: 13 }}>
+            View Vehicles
+          </button>
+        </div>
+      </div>
+
     </div>
   )
 }
@@ -99,49 +112,7 @@ const VehicleChart = ({ p }) => {
   )
 }
 
-const VehicleTable = ({ mobile }) => {
-  const [vehicles, setVehicles] = useState([
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-  ])
-
-
-  return (
-    <div>
-      <table style={{
-        width: '100%', color: 'white', borderLeft: mobile ? 'none' : '2px solid white', height: mobile ? 150 : 250,
-        overflowY: 'scroll', display: 'block', textAlign: 'left', fontSize: 13
-      }}>
-        <thead style={{}}>
-          <tr>
-            <th style={{ width: '50%', paddingLeft: 40 }}>Vehicle</th>
-            <th style={{ width: '30%' }}>License Plate</th>
-            <th style={{ width: '20%', paddingLeft: 40 }}>Fuel</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vehicles.map((vehicle) => (
-            <tr>
-              <td style={{ paddingLeft: 40 }}>{vehicle.name}</td>
-              <td>{vehicle.license}</td>
-              <td style={{ paddingLeft: 40 }}>{vehicle.fuel * 100}%</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
-}
-
-const Vehicles = () => {
+const Drivers = () => {
 
 
 
@@ -152,32 +123,16 @@ const Vehicles = () => {
           <div style={{ padding: 30 }}>
             <div style={{ width: '100%', background: '#000', borderRadius: 15 }}>
               <p style={{ color: '#FCDE5A', textAlign: 'center', fontWeight: 100, fontSize: 20, padding: 10, paddingLeft: 40 }}>
-                <img src={logo} width={250} />
+                Drivers
               </p>
 
-              <div style={{ display: 'inline-block', width: '15%', verticalAlign: 'top' }}>
+              {/* <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                 <VehicleData />
-              </div>
-              <div style={{ display: 'inline-block', width: '35%', verticalAlign: 'top', paddingTop: 50 }}>
-                <VehicleTable />
               </div>
               <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                 <VehicleChart />
-              </div>
-              {/* <div style={{ padding: 10, textAlign: 'left' }}>
-                <div style={{ display: 'inline-block', paddingRight: 10, }}>
-                  <button style={{ background: '#FCDE5A', color: 'black', fontSize: 13 }}>
-                    Add Vehicle
-                  </button>
-                </div>
-                <div style={{ display: 'inline-block' }}>
-                  <button style={{ background: '#FCDE5A', color: 'black', fontSize: 13 }}>
-                    View Vehicles
-                  </button>
-                </div>
               </div> */}
             </div>
-
           </div>
         )
       }
@@ -189,9 +144,6 @@ const Vehicles = () => {
             </p>
             <div style={{ verticalAlign: 'top', paddingBottom: 0 }}>
               <VehicleChart p={0.1} />
-            </div>
-            <div style={{ paddingTop: 20, paddingLeft: 15}}>
-              <VehicleTable mobile={true}/>
             </div>
             <div style={{ verticalAlign: 'top', textAlign: 'left' }}>
               <VehicleData />
@@ -205,4 +157,4 @@ const Vehicles = () => {
   )
 };
 
-export default Vehicles;
+export default Drivers;

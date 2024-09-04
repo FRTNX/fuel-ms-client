@@ -30,6 +30,7 @@ import {
 import MainLayout from '../layouts/MainLayout'
 
 import Vehicles from './Vehicles';
+import Drivers from './Drivers'
 
 
 const Home = () => {
@@ -42,7 +43,7 @@ const Home = () => {
           <Vehicles />
         </div>
         {/* <div style={{ paddingBottom: 40 }}>
-          <Vehicles />
+          <Drivers />
         </div> */}
         {/* <p className="read-the-docs">
           Watch this space for new features.
