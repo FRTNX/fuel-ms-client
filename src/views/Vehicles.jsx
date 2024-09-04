@@ -59,22 +59,22 @@ const VehicleData = ({ p }) => {
     <div style={{ padding: 40, fontSize: 13, textAlign: 'left' }}>
       {/* <p>  Vehicles: 14</p> */}
       <VehicleItem
-        avatar={<FaCar style={{ background: '#FCDE5A', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<FaCar style={{ background: '#a6b37d', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Vehicles'}
         secondary={14}
       />
       <VehicleItem
-        avatar={<GiMountainRoad style={{ background: '#82ca9d', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<GiMountainRoad style={{ background: '#c0c78c', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Active'}
         secondary={7}
       />
       <VehicleItem
-        avatar={<BsFuelPumpFill style={{ background: 'red', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<BsFuelPumpFill style={{ background: '#b99470', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Violations'}
         secondary={1}
       />
       <VehicleItem
-        avatar={<SiEventstore style={{ background: '#212121', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<SiEventstore style={{ background: '#fefae0', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Events'}
         secondary={2}
       />
@@ -83,17 +83,20 @@ const VehicleData = ({ p }) => {
 }
 
 const VehicleChart = ({ p }) => {
-  const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], 15);
+  const rows = window.innerWidth > 500 ? 10 : 5;
+  const variation = window.innerWidth > 500 ? 15 : 6;
+  const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows);
+  const lineWeight = 2;
 
   return (
     <div style={{ padding: p || 40 }}>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <LineChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-          <Line name='Vehicle 1' type="monotone" dataKey='c1' stroke="#ace142" />
-          <Line name='Vehicle 2' type="monotone" dataKey="c2" stroke="#fff" activeDot={{ r: 8 }} />
-          <Line name='Vehicle 3' type="monotone" dataKey="c3" stroke="#82ca9d" />
-          <Line name='Vehicle 4' type="monotone" dataKey='c4' stroke="#8884d8" />
-          <Line name='Vehicle 5' type="monotone" dataKey="c5" stroke="grey" activeDot={{ r: 8 }} />
+          <Line name='Vehicle 1' type="monotone" dataKey='c1' stroke="#f5f7f8" strokeWidth={lineWeight} />
+          <Line name='Vehicle 2' type="monotone" dataKey="c2" stroke="#fcde70" strokeWidth={lineWeight} activeDot={{ r: 8 }} />
+          <Line name='Vehicle 3' type="monotone" dataKey="c3" stroke="#e8b86d" strokeWidth={lineWeight} />
+          <Line name='Vehicle 4' type="monotone" dataKey='c4' stroke="red" strokeWidth={lineWeight} />
+          <Line name='Vehicle 5' type="monotone" dataKey="c5" stroke="#6a9c89" strokeWidth={lineWeight} activeDot={{ r: 8 }} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white' />
           <YAxis stroke='white' />
