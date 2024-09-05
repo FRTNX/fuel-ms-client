@@ -42,19 +42,22 @@ const generateData = (params, variation = 10, rows = 10) => {
 const VehicleItem = ({ avatar, primary, secondary, redirect, target }) => {
 
   return (
-    <button
-      style={{ textAlign: 'left', paddingLeft: 0, paddingTop: 0, background: 'black' }}
-      onClick={() => redirect(target)}
-    >
-      <div style={{}}>
-        <div style={{ paddingRight: 10, display: 'inline-block' }}>
-          {avatar}
+    <div style={{ width: '100%'}}>
+      <button
+        style={{ textAlign: 'left', paddingLeft: 0, paddingTop: 0, background: 'black' }}
+        onClick={() => redirect(target)}
+      >
+        <div style={{}}>
+          <div style={{ paddingRight: 10, display: 'inline-block' }}>
+            {avatar}
+          </div>
+          <div style={{ display: 'inline-block' }}>
+            <p style={{ marginBottom: 0, lineHeight: 1.5 }}>{primary} <br /> {secondary}</p>
+          </div>
         </div>
-        <div style={{ display: 'inline-block' }}>
-          <p style={{ marginBottom: 0, lineHeight: 1.5 }}>{primary} <br /> {secondary}</p>
-        </div>
-      </div>
-    </button>
+      </button>
+    </div>
+
 
   )
 }
