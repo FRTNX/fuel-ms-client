@@ -49,7 +49,7 @@ const SideBar = ({ open }) => {
       //   image={bglog}
       rootStyles={{ height: '100%', border: 'none' }}
     >
-      <div style={{ paddingTop: 20, paddingBottom: 0, paddingLeft: 0 }}>
+      <div style={{ paddingTop: 19, paddingBottom: 0, paddingLeft: 0 }}>
         <img src={bglog} width={250} onClick={<Link to={'/'} />} />
       </div>
       <Menu
