@@ -40,12 +40,15 @@ const closedSidebarStyle = {
 const MainLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 500 ? true : false);
 
+  const p = window.innerWidth > 500 ? 0 : 10;
+  const pb = window.innerWidth > 500 ? 25 : 32;
+
   const toggleSidebar = () => {
     if (window.innerWidth > 500) {
       if (sidebarOpen) {
         setSidebarOpen(false);
       }
-  
+
       else {
         setSidebarOpen(true)
       }
@@ -72,7 +75,13 @@ const MainLayout = ({ children }) => {
       <div class="item2">
         <SideBar open={sidebarOpen} />
       </div>
-      <div class="item3">{children}</div>
+      <div class="item3">
+        <div style={{ background: '#2c2a2a', height: '100%', width: '100%', borderRadius: 15 }}>
+          <div style={{ padding: p, paddingBottom: pb }}>
+            {children}
+          </div>
+        </div>
+      </div>
       <div class="item5">
         <footer style={{ background: 'black' }}>
           <div style={{ paddingTop: 40 }}>

@@ -35,20 +35,12 @@ import Drivers from './Drivers'
 
 const Home = () => {
   const [count, setCount] = useState(0)
+  const p = window.innerWidth > 500 ? 0 : 10;
+  const pb = window.innerWidth > 500 ? 25 : 32;
 
   return (
     <MainLayout>
-      <div style={{ background: '#2c2a2a', height: '100%', width: '100%', borderRadius: 15 }}>
-        <div style={{ padding: 10, paddingBottom: 32 }}>
-          <Vehicles />
-        </div>
-        {/* <div style={{ paddingBottom: 40 }}>
-          <Drivers />
-        </div> */}
-        {/* <p className="read-the-docs">
-          Watch this space for new features.
-        </p> */}
-      </div>
+      <Vehicles />
     </MainLayout>
   )
 }

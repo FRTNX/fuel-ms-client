@@ -50,7 +50,7 @@ const SideBar = ({ open }) => {
       rootStyles={{ height: '100%', border: 'none' }}
     >
       <div style={{ paddingTop: 20, paddingBottom: 0, paddingLeft: 0 }}>
-        <img src={bglog} width={252} onClick={<Link to={'/'} />} />
+        <img src={bglog} width={250} onClick={<Link to={'/'} />} />
       </div>
       <Menu
         menuItemStyles={{

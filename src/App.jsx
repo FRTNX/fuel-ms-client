@@ -10,6 +10,10 @@ import {
 } from 'react-router-dom';
 
 import Home from './views/Home';
+import VehiclesPage from './views/VehiclesPage';
+import ActiveVehicles from './views/ActiveVehicles';
+import Violations from './views/Violations';
+import EventsPage from './views/Events';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,6 +22,10 @@ function App() {
     <Router>
       <Routes>
         <Route path={'/'} element={<Home />} />
+        <Route path={'/vehicles'} element={<VehiclesPage />} />
+        <Route path={'/active'} element={<VehiclesPage />} />
+        <Route path={'/violations'} element={<VehiclesPage />} />
+        <Route path={'/events'} element={<VehiclesPage />} />
       </Routes>
 
     </Router>

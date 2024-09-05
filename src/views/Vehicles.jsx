@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { Navigate } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -23,13 +23,13 @@ import logo from '../assets/images/logo-text.jpg';
 
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
-const generateData = (params, variation=10, rows=10) => {
+const generateData = (params, variation = 10, rows = 10) => {
   const d = [];
   let minValue = 0;
   let maxValue = variation;
-  for (let i=0; i < rows; i++) {
-    const datapoint = { };
-    params.map((param) => 
+  for (let i = 0; i < rows; i++) {
+    const datapoint = {};
+    params.map((param) =>
       datapoint[param] = random(minValue, maxValue)
     )
     d.push(datapoint)
@@ -39,44 +39,57 @@ const generateData = (params, variation=10, rows=10) => {
   return d;
 }
 
-const VehicleItem = ({ avatar, primary, secondary }) => {
+const VehicleItem = ({ avatar, primary, secondary, redirect, target }) => {
 
   return (
-    <div style={{}}>
-      <div style={{ paddingRight: 10, display: 'inline-block' }}>
-        {avatar}
+    <button
+      style={{ textAlign: 'left', paddingLeft: 0, paddingTop: 0, background: 'black' }}
+      onClick={() => redirect(target)}
+    >
+      <div style={{}}>
+        <div style={{ paddingRight: 10, display: 'inline-block' }}>
+          {avatar}
+        </div>
+        <div style={{ display: 'inline-block' }}>
+          <p style={{ marginBottom: 0, lineHeight: 1.5 }}>{primary} <br /> {secondary}</p>
+        </div>
       </div>
-      <div style={{ display: 'inline-block' }}>
-        <p style={{ marginBottom: 0, lineHeight: 1.5 }}>{primary} <br /> {secondary}</p>
-      </div>
-    </div>
+    </button>
+
   )
 }
 
-const VehicleData = ({ p }) => {
+const VehicleData = ({ p, redirect }) => {
 
   return (
     <div style={{ padding: 40, fontSize: 13, textAlign: 'left' }}>
-      {/* <p>  Vehicles: 14</p> */}
       <VehicleItem
         avatar={<FaCar style={{ background: '#a6b37d', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Vehicles'}
         secondary={14}
+        redirect={redirect}
+        target={'/vehicles'}
       />
       <VehicleItem
         avatar={<GiMountainRoad style={{ background: '#c0c78c', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Active'}
         secondary={7}
+        redirect={redirect}
+        target={'/active'}
       />
       <VehicleItem
         avatar={<BsFuelPumpFill style={{ background: '#b99470', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Violations'}
         secondary={1}
+        redirect={redirect}
+        target={'/violations'}
       />
       <VehicleItem
         avatar={<SiEventstore style={{ background: '#fefae0', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Events'}
         secondary={2}
+        redirect={redirect}
+        target={'/events'}
       />
     </div>
   )
@@ -156,8 +169,17 @@ const VehicleTable = ({ mobile }) => {
 }
 
 const Vehicles = () => {
+  const [redirect, setRedirect] = useState({ triggered: false, target: '' });
 
+  const redirectTo = (target) => {
+    setRedirect({ triggered: true, target });
+  }
 
+  if (redirect.triggered) {
+    return (
+      <Navigate to={redirect.target} />
+    )
+  }
 
   return (
     <div>
@@ -168,9 +190,8 @@ const Vehicles = () => {
               <p style={{ color: '#FCDE5A', textAlign: 'center', fontWeight: 100, fontSize: 20, padding: 10, paddingLeft: 40 }}>
                 <img src={logo} width={250} />
               </p>
-
               <div style={{ display: 'inline-block', width: '15%', verticalAlign: 'top' }}>
-                <VehicleData />
+                <VehicleData redirect={redirectTo} />
               </div>
               <div style={{ display: 'inline-block', width: '35%', verticalAlign: 'top', paddingTop: 50 }}>
                 <VehicleTable />
@@ -178,20 +199,7 @@ const Vehicles = () => {
               <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                 <VehicleChart />
               </div>
-              {/* <div style={{ padding: 10, textAlign: 'left' }}>
-                <div style={{ display: 'inline-block', paddingRight: 10, }}>
-                  <button style={{ background: '#FCDE5A', color: 'black', fontSize: 13 }}>
-                    Add Vehicle
-                  </button>
-                </div>
-                <div style={{ display: 'inline-block' }}>
-                  <button style={{ background: '#FCDE5A', color: 'black', fontSize: 13 }}>
-                    View Vehicles
-                  </button>
-                </div>
-              </div> */}
             </div>
-
           </div>
         )
       }
@@ -204,11 +212,11 @@ const Vehicles = () => {
             <div style={{ verticalAlign: 'top', paddingBottom: 0 }}>
               <VehicleChart p={0.1} />
             </div>
-            <div style={{ paddingTop: 20, paddingLeft: 15}}>
-              <VehicleTable mobile={true}/>
+            <div style={{ paddingTop: 20, paddingLeft: 15 }}>
+              <VehicleTable mobile={true} />
             </div>
             <div style={{ verticalAlign: 'top', textAlign: 'left' }}>
-              <VehicleData />
+              <VehicleData redirect={redirectTo} />
             </div>
           </div>
         )
