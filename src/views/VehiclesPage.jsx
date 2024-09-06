@@ -65,13 +65,13 @@ const VehicleCard = ({ data }) => {
   }
 
   return (
-    <div style={{ background: '#121212', borderRadius: 15 }}>
+    <div style={{ background: '#1d1b1b', borderRadius: 15 }}>
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
           <VehicleBrand />
         </div>
       </div>
-      <div style={{ display: 'inline-block', width: '68%', fontSize: 13, verticalAlign: 'top' }}>
+      <div style={{ display: 'inline-block', width: '68%', fontSize: 13, verticalAlign: 'top', textAlign: 'left' }}>
         <p>Name: {data.name}</p>
         <p>License Plate: {data.license}</p>
         <p>Status: {data.status}</p>
@@ -194,7 +194,7 @@ const VehiclesPage = () => {
   const [activeVehicles, setActiveVehicles] = useState(false);
   const [lowFuelVehicles, setLowFuelVehicles] = useState(false);
 
-  const filterVehicles = (searchValue, active=activeVehicles, lowFuel=lowFuelVehicles) => {
+  const filterVehicles = (searchValue, active = activeVehicles, lowFuel = lowFuelVehicles) => {
     console.log('filter: ', searchValue)
     console.log('active: ', active)
     console.log('low fuel: ', lowFuel)
@@ -230,24 +230,16 @@ const VehiclesPage = () => {
 
   const toggleActiveVehicles = () => {
     if (activeVehicles) {
-      // setActiveVehicles(current => false);
       filterVehicles(inputText, false)
-    }
-
-    else {
-      // setActiveVehicles(current => true);
+    } else {
       filterVehicles(inputText, true)
     }
   };
 
   const toggleLowFuelVehicles = () => {
     if (lowFuelVehicles) {
-      // setLowFuelVehicles(false);
       filterVehicles(inputText, activeVehicles, false)
-    }
-
-    else {
-      // setLowFuelVehicles(true)
+    } else {
       filterVehicles(inputText, activeVehicles, true)
     }
   };
@@ -258,7 +250,7 @@ const VehiclesPage = () => {
         {
           window.innerWidth > 500 && (
             <div style={{ padding: 30 }}>
-              <div style={{ width: '100%', background: '#000', borderRadius: 15 }}>
+              <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 40 }}>
 
                 <div style={{ display: 'inline-block', width: '50%', textAlign: 'left', paddingTop: 10 }}>
                   <div style={{}}>
@@ -277,7 +269,7 @@ const VehiclesPage = () => {
                       <button
                         style={{ background: activeVehicles ? '#0d7c66' : 'grey', fontSize: 13, padding: 11 }}
                         onClick={(toggleActiveVehicles)}
-                        // disabled={{ activeVehicles }}
+                      // disabled={{ activeVehicles }}
                       >Active</button>
                     </div>
                     <div style={{ display: 'inline-block', paddingLeft: 5 }}>
@@ -287,9 +279,7 @@ const VehiclesPage = () => {
                       >Low Fuel</button>
                     </div>
                   </div>
-
                   <div style={{ height: 500, overflowY: 'scroll' }}>
-
                     {
                       vehicles.map((vehicle) => (
                         <div style={{ display: 'inline-block', width: '47%', padding: 10 }}>
@@ -301,8 +291,7 @@ const VehiclesPage = () => {
 
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
-                  <p style={{ paddingTop: 40}}>Vehicle Management</p>
-
+                  <p style={{ paddingTop: 40 }}>Vehicle Management</p>
                 </div>
               </div>
             </div>
@@ -310,8 +299,41 @@ const VehiclesPage = () => {
         }
         {
           window.innerWidth < 500 && (
-            <div style={{ width: '100%', background: '#000', borderRadius: 15, height: 500 }}>
-              <Placeholder />
+            <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 20 }}>
+              <div style={{}}>
+                <div style={{ padding: 20, paddingTop: 20, paddingBottom: 10 }}>
+                  <input
+                    type="text"
+                    value={inputText}
+                    onChange={(e) => filterVehicles(e.target.value)}
+                    placeholder="Search vehicles by driver, license plate, etc..."
+                    style={{
+                      width: '100%', height: 35, borderRadius: 5, border: 'none'
+                    }}
+                  />
+                </div>
+                <div style={{ display: 'inline-block', paddingLeft: 20, float: 'left' }}>
+                  <button
+                    style={{ background: activeVehicles ? '#0d7c66' : 'grey', fontSize: 13, padding: 11 }}
+                    onClick={(toggleActiveVehicles)}
+                  >Active</button>
+                </div>
+                <div style={{ display: 'inline-block', paddingLeft: 5, paddingBottom: 20, float: 'left' }}>
+                  <button
+                    style={{ background: lowFuelVehicles ? '#8d493a' : 'grey', fontSize: 13, padding: 11 }}
+                    onClick={toggleLowFuelVehicles}
+                  >Low Fuel</button>
+                </div>
+              </div>
+              <div style={{ width: '100%', height: 800, overflowY: 'scroll' }}>
+                {
+                  vehicles.map((vehicle) => (
+                    <div style={{ padding: 10 }}>
+                      <VehicleCard data={vehicle} />
+                    </div>
+                  ))
+                }
+              </div>
             </div>
           )
         }

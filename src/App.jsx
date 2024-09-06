@@ -23,9 +23,9 @@ function App() {
       <Routes>
         <Route path={'/'} element={<Home />} />
         <Route path={'/vehicles'} element={<VehiclesPage />} />
-        <Route path={'/active'} element={<VehiclesPage />} />
-        <Route path={'/violations'} element={<VehiclesPage />} />
-        <Route path={'/events'} element={<VehiclesPage />} />
+        <Route path={'/active'} element={<Violations />} />
+        <Route path={'/violations'} element={<Violations />} />
+        <Route path={'/events'} element={<Violations />} />
       </Routes>
 
     </Router>
