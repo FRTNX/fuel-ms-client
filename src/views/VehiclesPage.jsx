@@ -221,7 +221,7 @@ const VehiclesPage = () => {
     const filtered = copy.filter((vehicle) => {
       const { brand, name, license, driver, source, destination } = vehicle;
       const searchableFields = [brand, name, license, driver, destination];
-      return searchableFields.some((field) => field.toLowerCase().includes(searchValue))
+      return searchableFields.some((field) => field.toLowerCase().includes(searchValue.toLowerCase()))
     });
 
     console.log('filtered:', filtered.length)
