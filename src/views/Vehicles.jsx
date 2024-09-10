@@ -75,7 +75,7 @@ const VehicleData = ({ p, redirect }) => {
       />
       <VehicleItem
         avatar={<GiMountainRoad style={{ background: '#c0c78c', color: 'black', borderRadius: 50, padding: 10 }} />}
-        primary={'Active'}
+        primary={'Drivers'}
         secondary={7}
         redirect={redirect}
         target={'/active'}

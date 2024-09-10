@@ -2,31 +2,9 @@ import { useEffect, useState } from "react";
 
 import MainLayout from "../layouts/MainLayout";
 
-import {
-  GridLoader,
-  BeatLoader,
-  BarLoader,
-  HashLoader,
-  ClimbingBoxLoader,
-  BounceLoader,
-  PacmanLoader,
-  PropagateLoader,
-  PulseLoader,
-  PuffLoader,
-  MoonLoader,
-  ScaleLoader,
-  SyncLoader,
-  ClipLoader,
-  FadeLoader,
-  RiseLoader,
-  DotLoader,
-  RingLoader,
-  RotateLoader,
-  CircleLoader
-} from 'react-spinners';
-
 import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania } from "react-icons/si";
 
+import { random } from "../utils";
 
 const VehicleCard = ({ data }) => {
 
@@ -84,19 +62,69 @@ const VehicleCard = ({ data }) => {
   )
 };
 
+const Form = ({ formData, width, display, submitForm, toggleForm }) => {
+  const [data, setData] = useState(formData);
 
-const Placeholder = () => {
-  const pl = window.innerWidth > 500 ? '47%' : '38%';
+  const reset = () => {
+    const copy = { ...data }
+    Object.keys(data).map((key) => copy[key].value = '');
+    setData(copy);
+  }
+
+  const submit = () => {
+    const params = Object.keys(data).reduce((partParams, key) => ({ ...partParams, [key]: data[key].value }), {});
+    reset();
+    submitForm(params)
+  };
+
+  const cancel = () => {
+    reset();
+    toggleForm()
+  }
+
+  const handleChange = (event, target) => {
+    const copy = { ...data };
+    copy[target].value = event.target.value
+    setData(copy);
+  }
+
 
   return (
-    <div>
-      <div style={{ textAlign: 'center', paddingTop: 200, paddingLeft: pl }}>
-        <CircleLoader color="grey" size={100} />
+    <div style={{ paddingTop: 40 }}>
+      <div>
+        {
+          Object.keys(data).map((key) => (
+            <div style={{ width: width || '50%', display: display || 'inline-block', verticalAlign: 'top', textAlign: 'left', paddingBottom: 10 }}>
+              <div style={{ paddingLeft: 10, paddingRight: 10 }}>
+                <label htmlFor={data[key].label} style={{ fontSize: 14 }}>{data[key].label}</label><br />
+                <input
+                  type={data[key].type || 'text'}
+                  id={data[key].label}
+                  style={{ width: '100%', height: 35, border: 'none', borderRadius: 5, paddingLeft: 5 }}
+                  value={data[key].value}
+                  onChange={(e) => handleChange(e, key)}
+                />
+              </div>
+            </div>
+          ))
+        }
       </div>
-      <p style={{ color: 'grey', paddingTop: 20 }}>Coming Soon :) </p>
+      <div style={{ paddingTop: 5 }}>
+        <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
+          <button
+            style={{ fontSize: 13, padding: 11, float: 'right' }}
+            onClick={submit}
+          >Submit</button>
+        </div>
+        <div style={{ display: 'inline-block', float: 'right' }}>
+          <button
+            style={{ fontSize: 13, padding: 11, float: 'right' }}
+            onClick={cancel}
+          >Cancel</button>
+        </div>
+      </div>
 
     </div>
-
   )
 }
 
@@ -123,46 +151,7 @@ const VehiclesPage = () => {
       destination: 'BYO HQ',
       fuel: 0.52
     },
-    {
-      brand: 'bmw',
-      name: 'BMW 2022',
-      license: 'XMR-8132',
-      status: 'Active',
-      driver: 'Dricus Du Plesis',
-      source: 'BYO HQ',
-      destination: 'BYO HQ',
-      fuel: 0.66
-    },
-    {
-      brand: 'vw',
-      name: 'Volkswagen 2017',
-      license: 'ADT-2271',
-      status: 'Inactive',
-      driver: 'Francis Nganau',
-      source: 'BYO HQ',
-      destination: 'None',
-      fuel: 0.41
-    },
-    {
-      brand: 'tesla',
-      name: 'Tesla 2019',
-      license: 'ORK-1915',
-      status: 'Active',
-      driver: 'Alan Turing',
-      source: 'BYO HQ',
-      destination: 'HRE HQ',
-      fuel: 0.32
-    },
-    {
-      brand: 'renault',
-      name: 'Renault 2024',
-      license: 'YQL-3230',
-      status: 'Inactive',
-      driver: 'Edwin Hubble',
-      source: 'BYO HQ',
-      destination: 'None',
-      fuel: 0.77
-    },
+
     {
       brand: 'scania',
       name: 'Scania 2021',
@@ -174,36 +163,39 @@ const VehiclesPage = () => {
       fuel: 0.20
     },
     {
-      brand: 'audi',
-      name: 'Audi 2015',
-      license: 'ILS-3691',
-      status: 'Active',
-      driver: 'Tim Walz',
+      brand: 'vw',
+      name: 'Volkswagen 2017',
+      license: 'ADT-2271',
+      status: 'Inactive',
+      driver: 'Francis Nganau',
       source: 'BYO HQ',
-      destination: 'BYO HQ',
-      fuel: 0.91
-    }
-
+      destination: 'None',
+      fuel: 0.41
+    },
   ]);
 
-
-  const [vehicles, setVehicles] = useState(data);
-
   const [inputText, setInputText] = useState('');
-
+  const [vehicles, setVehicles] = useState(data);
   const [activeVehicles, setActiveVehicles] = useState(false);
   const [lowFuelVehicles, setLowFuelVehicles] = useState(false);
 
+  const [vehicleFormVisible, setVehicleFormVisible] = useState(false);
+
+  const [newVehicle, setNewVehicle] = useState({
+    brand: { label: 'Vehicle Manufacturer', value: '' },
+    name: { label: 'Vehicle Name', value: '' },
+    license: { label: 'License Plate', value: '' },
+    fuelCapacity: { label: 'Fuel Tank Capacity', value: '', type: 'number' },
+    sensor: { label: 'Fuel Sensor ID', value: '' },
+    loacation: { label: 'Initial Location', value: '' },
+
+  })
+
   const filterVehicles = (searchValue, active = activeVehicles, lowFuel = lowFuelVehicles) => {
-    console.log('filter: ', searchValue)
-    console.log('active: ', active)
-    console.log('low fuel: ', lowFuel)
-
     setInputText(searchValue)
-
     let copy = [...data];
+
     if (active) {
-      console.log('filtering by activity')
       copy = copy.filter((vehicle) => vehicle.status === 'Active');
       setActiveVehicles(true);
     } else {
@@ -211,7 +203,6 @@ const VehiclesPage = () => {
     }
 
     if (lowFuel) {
-      console.log('filtering by low fuel')
       copy = copy.filter((vehicle) => vehicle.fuel < 0.50)
       setLowFuelVehicles(true);
     } else {
@@ -224,7 +215,6 @@ const VehiclesPage = () => {
       return searchableFields.some((field) => field.toLowerCase().includes(searchValue.toLowerCase()))
     });
 
-    console.log('filtered:', filtered.length)
     setVehicles(filtered);
   }
 
@@ -244,6 +234,28 @@ const VehiclesPage = () => {
     }
   };
 
+  const toggleVehicleForm = () => {
+    if (vehicleFormVisible) {
+      setVehicleFormVisible(false);
+    } else {
+      setVehicleFormVisible(true);
+    }
+  }
+
+  const submitVehicle = (vehicle) => {
+    const augmented = {
+      ...vehicle,
+      status: 'Inactive',
+      driver: 'Unassigned',
+      source: 'None',
+      destination: 'None',
+      fuel: random(10, 100) * 0.01
+    }
+
+    console.log('augmented params: ', augmented)
+    setData(current => [...current, augmented])
+    setVehicles(current => [...current, augmented])
+  }
   return (
     <MainLayout>
       <div style={{ paddingTop: 20 }}>
@@ -261,18 +273,17 @@ const VehiclesPage = () => {
                         onChange={(e) => filterVehicles(e.target.value)}
                         placeholder="Search vehicles by driver, license plate, etc..."
                         style={{
-                          width: '100%', height: 35, borderRadius: 5, border: 'none'
+                          width: '100%', height: 35, borderRadius: 5, border: 'none', paddingLeft: 10
                         }}
                       />
                     </div>
-                    <div style={{ display: 'inline-block', paddingLeft: 10 }}>
+                    <div style={{ display: 'inline-block', paddingLeft: 20 }}>
                       <button
                         style={{ background: activeVehicles ? '#0d7c66' : 'grey', fontSize: 13, padding: 11 }}
                         onClick={(toggleActiveVehicles)}
-                      // disabled={{ activeVehicles }}
                       >Active</button>
                     </div>
-                    <div style={{ display: 'inline-block', paddingLeft: 5 }}>
+                    <div style={{ display: 'inline-block', paddingLeft: 7 }}>
                       <button
                         style={{ background: lowFuelVehicles ? '#8d493a' : 'grey', fontSize: 13, padding: 11 }}
                         onClick={toggleLowFuelVehicles}
@@ -291,7 +302,29 @@ const VehiclesPage = () => {
 
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
-                  <p style={{ paddingTop: 40 }}>Vehicle Management</p>
+                  <p style={{ paddingTop: 45, paddingLeft: 30, textAlign: 'left', fontSize: 18 }}>Vehicle Management</p>
+                  <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
+                  <div style={{ paddingRight: 20, paddingLeft: 20 }}>
+                    <button
+                      style={{ fontSize: 13, padding: 11, float: 'right' }}
+                      onClick={toggleVehicleForm}
+                      disabled={vehicleFormVisible}
+                    >
+                      Add Vehicle
+                    </button>
+                    <div style={{}}>
+                      {
+                        vehicleFormVisible && (
+                          <Form
+                            formData={newVehicle}
+                            submitForm={submitVehicle}
+                            toggleForm={toggleVehicleForm}
+                            width={'50%'}
+                          />
+                        )
+                      }
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -299,7 +332,7 @@ const VehiclesPage = () => {
         }
         {
           window.innerWidth < 500 && (
-            <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 20 }}>
+            <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 60 }}>
               <div style={{}}>
                 <div style={{ padding: 20, paddingTop: 20, paddingBottom: 10 }}>
                   <input
@@ -333,6 +366,31 @@ const VehiclesPage = () => {
                     </div>
                   ))
                 }
+              </div>
+              <div style={{}}>
+                <p style={{ paddingTop: 45, paddingLeft: 30, textAlign: 'left', fontSize: 18 }}>Vehicle Management</p>
+                <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
+                <div style={{ paddingRight: 20, paddingLeft: 20 }}>
+                  <button
+                    style={{ fontSize: 13, padding: 11, float: 'right' }}
+                    onClick={toggleVehicleForm}
+                    disabled={vehicleFormVisible}
+                  >
+                    Add Vehicle
+                  </button>
+                  <div style={{}}>
+                    {
+                      vehicleFormVisible && (
+                        <Form
+                          formData={newVehicle}
+                          submitForm={submitVehicle}
+                          toggleForm={toggleVehicleForm}
+                          width={'100%'}
+                        />
+                      )
+                    }
+                  </div>
+                </div>
               </div>
             </div>
           )
