@@ -189,6 +189,12 @@ const VehiclesPage = () => {
     fuelCapacity: { label: 'Fuel Tank Capacity', value: '', type: 'number' },
     sensor: { label: 'Fuel Sensor ID', value: '' },
     loacation: { label: 'Initial Location', value: '' },
+  });
+
+  const [status, setStatus] = useState({
+    message: '',
+    color: 'green',
+    show: false
   })
 
   const addColor = '#3c3d37'
@@ -237,6 +243,12 @@ const VehiclesPage = () => {
   };
 
   const toggleVehicleForm = () => {
+     setStatus({
+      message: '',
+      color: 'green',
+      show: false
+    });
+
     if (vehicleFormVisible) {
       setVehicleFormVisible(false);
     } else {
@@ -259,6 +271,11 @@ const VehiclesPage = () => {
     console.log('augmented params: ', augmented)
     setData(current => [...current, augmented])
     setVehicles(current => [...current, augmented])
+    setStatus({
+      message: 'Vehicle added successfully!',
+      color: '#557c56',
+      show: true
+    });
   }
   return (
     <MainLayout>
@@ -307,6 +324,11 @@ const VehiclesPage = () => {
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                   <p style={{ paddingTop: 45, paddingLeft: 30, textAlign: 'left', fontSize: 18 }}>Vehicle Management</p>
+                  {
+                    status.show && (
+                      <p style={{ fontSize: 13, textAlign: 'left', color: status.color, paddingLeft: 30 }}>{status.message}</p>
+                    )
+                  }
                   <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
                   <div style={{ paddingRight: 20, paddingLeft: 20 }}>
                     <button
@@ -373,6 +395,11 @@ const VehiclesPage = () => {
               </div>
               <div style={{}}>
                 <p style={{ paddingTop: 45, paddingLeft: 30, textAlign: 'left', fontSize: 18 }}>Vehicle Management</p>
+                {
+                    status.show && (
+                      <p style={{ fontSize: 13, textAlign: 'left', color: status.color, paddingLeft: 30 }}>{status.message}</p>
+                    )
+                  }
                 <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
                 <div style={{ paddingRight: 20, paddingLeft: 20 }}>
                   <button
