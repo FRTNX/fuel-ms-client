@@ -112,13 +112,13 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
       <div style={{ paddingTop: 5 }}>
         <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
           <button
-            style={{ fontSize: 13, padding: 11, float: 'right' }}
+            style={{ fontSize: 13, padding: 11, float: 'right', background: '#557c56' }}
             onClick={submit}
           >Submit</button>
         </div>
         <div style={{ display: 'inline-block', float: 'right' }}>
           <button
-            style={{ fontSize: 13, padding: 11, float: 'right' }}
+            style={{ fontSize: 13, padding: 11, float: 'right', background: '#3c3d37' }}
             onClick={cancel}
           >Cancel</button>
         </div>
@@ -188,8 +188,9 @@ const VehiclesPage = () => {
     fuelCapacity: { label: 'Fuel Tank Capacity', value: '', type: 'number' },
     sensor: { label: 'Fuel Sensor ID', value: '' },
     loacation: { label: 'Initial Location', value: '' },
-
   })
+
+  const addColor = '#3c3d37'
 
   const filterVehicles = (searchValue, active = activeVehicles, lowFuel = lowFuelVehicles) => {
     setInputText(searchValue)
@@ -306,7 +307,7 @@ const VehiclesPage = () => {
                   <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
                   <div style={{ paddingRight: 20, paddingLeft: 20 }}>
                     <button
-                      style={{ fontSize: 13, padding: 11, float: 'right' }}
+                      style={{ fontSize: 13, padding: 11, float: 'right', background: addColor }}
                       onClick={toggleVehicleForm}
                       disabled={vehicleFormVisible}
                     >
@@ -372,7 +373,7 @@ const VehiclesPage = () => {
                 <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
                 <div style={{ paddingRight: 20, paddingLeft: 20 }}>
                   <button
-                    style={{ fontSize: 13, padding: 11, float: 'right' }}
+                    style={{ fontSize: 13, padding: 11, float: 'right', background: addColor }}
                     onClick={toggleVehicleForm}
                     disabled={vehicleFormVisible}
                   >
