@@ -74,12 +74,13 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
   const submit = () => {
     const params = Object.keys(data).reduce((partParams, key) => ({ ...partParams, [key]: data[key].value }), {});
     reset();
+    toggleForm();
     submitForm(params)
   };
 
   const cancel = () => {
     reset();
-    toggleForm()
+    toggleForm();
   }
 
   const handleChange = (event, target) => {
@@ -252,6 +253,8 @@ const VehiclesPage = () => {
       destination: 'None',
       fuel: random(10, 100) * 0.01
     }
+
+    augmented.brand = vehicle.brand.toLowerCase()
 
     console.log('augmented params: ', augmented)
     setData(current => [...current, augmented])
