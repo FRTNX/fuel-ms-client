@@ -8,7 +8,7 @@ import { random, VehicleBrand } from "../utils";
 
 const VehicleCard = ({ data, redirect }) => {
   return (
-    <div style={{ background: '#1d1b1b', borderRadius: 15 }}>
+    <div style={{ background: '#1d1b1b', borderRadius: 15 }} onClick={() => redirect(`/vehicle/${data.license}`)}>
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
           <VehicleBrand brand={data.brand} />
