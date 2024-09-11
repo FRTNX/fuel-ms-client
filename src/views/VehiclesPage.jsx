@@ -1,52 +1,17 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
-import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania } from "react-icons/si";
 
-import { random } from "../utils";
+import { random, VehicleBrand } from "../utils";
 
-const VehicleCard = ({ data }) => {
-
-  const VehicleBrand = () => {
-    if (data.brand === 'volvo') {
-      return <SiVolvo size={50} />
-    }
-
-    else if (data.brand === 'mercedes') {
-      return <SiMercedes size={50} />
-    }
-
-    else if (data.brand === 'vw') {
-      return <SiVolkswagen size={50} />
-    }
-
-    else if (data.brand === 'tesla') {
-      return <SiTesla size={50} />
-    }
-
-    else if (data.brand === 'audi') {
-      return <SiAudi size={50} />
-    }
-
-    else if (data.brand === 'renault') {
-      return <SiRenault size={50} />
-    }
-
-    else if (data.brand === 'scania') {
-      return <SiScania size={50} />
-    }
-
-    else {
-      return <SiBmw size={50} />
-    }
-  }
-
+const VehicleCard = ({ data, redirect }) => {
   return (
     <div style={{ background: '#1d1b1b', borderRadius: 15 }}>
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
-          <VehicleBrand />
+          <VehicleBrand brand={data.brand} />
         </div>
       </div>
       <div style={{ display: 'inline-block', width: '68%', fontSize: 13, verticalAlign: 'top', textAlign: 'left' }}>
@@ -65,6 +30,9 @@ const VehicleCard = ({ data }) => {
 const Form = ({ formData, width, display, submitForm, toggleForm }) => {
   const [data, setData] = useState(formData);
 
+  /**
+   * reset form fields
+   */
   const reset = () => {
     const copy = { ...data }
     Object.keys(data).map((key) => copy[key].value = '');
@@ -73,22 +41,21 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
 
   const submit = () => {
     const params = Object.keys(data).reduce((partParams, key) => ({ ...partParams, [key]: data[key].value }), {});
+    submitForm(params);
     reset();
     toggleForm();
-    submitForm(params)
   };
 
   const cancel = () => {
     reset();
     toggleForm();
-  }
+  };
 
   const handleChange = (event, target) => {
     const copy = { ...data };
     copy[target].value = event.target.value
     setData(copy);
-  }
-
+  };
 
   return (
     <div style={{ paddingTop: 40 }}>
@@ -97,7 +64,7 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
           Object.keys(data).map((key) => (
             <div style={{ width: width || '50%', display: display || 'inline-block', verticalAlign: 'top', textAlign: 'left', paddingBottom: 10 }}>
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
-                <label htmlFor={data[key].label} style={{ fontSize: 14 }}>{data[key].label}</label><br />
+                <label htmlFor={data[key].label} style={{ fontSize: 13 }}>{data[key].label}</label><br />
                 <input
                   type={data[key].type || 'text'}
                   id={data[key].label}
@@ -113,7 +80,7 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
       <div style={{ paddingTop: 5 }}>
         <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
           <button
-            style={{ fontSize: 13, padding: 11, float: 'right', background: '#557c56' }}
+            style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66' }}
             onClick={submit}
           >Submit</button>
         </div>
@@ -175,6 +142,7 @@ const VehiclesPage = () => {
     },
   ]);
 
+  const [redirect, setRedirect] = useState({ activated: false, target: '' });
   const [inputText, setInputText] = useState('');
   const [vehicles, setVehicles] = useState(data);
   const [activeVehicles, setActiveVehicles] = useState(false);
@@ -243,7 +211,7 @@ const VehiclesPage = () => {
   };
 
   const toggleVehicleForm = () => {
-     setStatus({
+    setStatus({
       message: '',
       color: 'green',
       show: false
@@ -268,7 +236,6 @@ const VehiclesPage = () => {
 
     augmented.brand = vehicle.brand.toLowerCase()
 
-    console.log('augmented params: ', augmented)
     setData(current => [...current, augmented])
     setVehicles(current => [...current, augmented])
     setStatus({
@@ -276,7 +243,17 @@ const VehiclesPage = () => {
       color: '#557c56',
       show: true
     });
+  };
+
+  const redirectTo = (target) => {
+    setRedirect({ activated: true, target })
   }
+
+  if (redirect.activated) {
+    return <Navigate to={redirect.target}/>
+  }
+
+
   return (
     <MainLayout>
       <div style={{ paddingTop: 20 }}>
@@ -284,7 +261,6 @@ const VehiclesPage = () => {
           window.innerWidth > 500 && (
             <div style={{ padding: 30 }}>
               <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 40 }}>
-
                 <div style={{ display: 'inline-block', width: '50%', textAlign: 'left', paddingTop: 10 }}>
                   <div style={{}}>
                     <div style={{ width: '45%', paddingLeft: 10, paddingTop: 10, paddingBottom: 10, display: 'inline-block' }}>
@@ -315,12 +291,11 @@ const VehiclesPage = () => {
                     {
                       vehicles.map((vehicle) => (
                         <div style={{ display: 'inline-block', width: '47%', padding: 10 }}>
-                          <VehicleCard data={vehicle} />
+                          <VehicleCard data={vehicle} redirect={redirectTo} />
                         </div>
                       ))
                     }
                   </div>
-
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                   <p style={{ paddingTop: 45, paddingLeft: 30, textAlign: 'left', fontSize: 18 }}>Vehicle Management</p>
@@ -396,10 +371,10 @@ const VehiclesPage = () => {
               <div style={{}}>
                 <p style={{ paddingTop: 45, paddingLeft: 30, textAlign: 'left', fontSize: 18 }}>Vehicle Management</p>
                 {
-                    status.show && (
-                      <p style={{ fontSize: 13, textAlign: 'left', color: status.color, paddingLeft: 30 }}>{status.message}</p>
-                    )
-                  }
+                  status.show && (
+                    <p style={{ fontSize: 13, textAlign: 'left', color: status.color, paddingLeft: 30 }}>{status.message}</p>
+                  )
+                }
                 <p style={{ fontSize: 13, textAlign: 'left', color: 'grey', paddingLeft: 30 }}>To add more vehicles click the button below.</p>
                 <div style={{ paddingRight: 20, paddingLeft: 20 }}>
                   <button
