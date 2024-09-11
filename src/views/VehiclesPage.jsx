@@ -4,11 +4,49 @@ import { Navigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 
 
-import { random, VehicleBrand } from "../utils";
+import { random } from "../utils";
+
+const VehicleBrand = ({ brand }) => {
+  if (brand === 'volvo') {
+    return <SiVolvo size={50} />
+  }
+
+  else if (brand === 'mercedes') {
+    return <SiMercedes size={50} />
+  }
+
+  else if (brand === 'vw') {
+    return <SiVolkswagen size={50} />
+  }
+
+  else if (brand === 'tesla') {
+    return <SiTesla size={50} />
+  }
+
+  else if (brand === 'audi') {
+    return <SiAudi size={50} />
+  }
+
+  else if (brand === 'renault') {
+    return <SiRenault size={50} />
+  }
+
+  else if (brand === 'scania') {
+    return <SiScania size={50} />
+  }
+
+  else if (brand === 'toyota') {
+    return <SiToyota size={50} />
+  }
+
+  else {
+    return <SiBmw size={50} />
+  }
+};
 
 const VehicleCard = ({ data, redirect }) => {
   return (
-    <div style={{ background: '#1d1b1b', borderRadius: 15 }} >
+    <div style={{ background: '#1d1b1b', borderRadius: 15 }} onClick={() => redirect(`/vehicle/${data.license}`)}>
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
           <VehicleBrand brand={data.brand} />
