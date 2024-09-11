@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
+import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota } from "react-icons/si";
 
 import { random } from "../utils";
 
