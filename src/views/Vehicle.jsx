@@ -110,7 +110,7 @@ const Vehicle = () => {
   return (
     <MainLayout>
       <div>
-        {
+      {
           window.innerWidth > 500 && (
             <div style={{ padding: 30, paddingTop: 50 }}>
               <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 40 }}>
@@ -119,15 +119,15 @@ const Vehicle = () => {
                     <div style={{ background: '#1d1b1b', borderRadius: 10, paddingBottom: 20 }}>
                       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top', paddingTop: 20 }}>
                         <div style={{ padding: 10, paddingLeft: 18 }}>
-                          <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 5, lineHeight: 0.5 }}>
+                          <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 10, lineHeight: 0.5 }}>
                             <VehicleBrand brand={vehicle.brand} size={90} />
                             <p style={{}}>{license}</p>
                             <p style={{ color: '#557c56' }}>Active</p>
                           </div>
                         </div>
                       </div>
-                      <div style={{}}>
-                        <div style={{ }}>
+                      <div style={{ display: 'inline-block', width: '70%', verticalAlign: 'top' }}>
+                        <div style={{ paddingRight: 50 }}>
                           <Form formData={data} inline={true} width={'100%'} />
                         </div>
                       </div>
