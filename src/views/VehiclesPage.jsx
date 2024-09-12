@@ -1,49 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-
 import MainLayout from "../layouts/MainLayout";
-
-import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota } from "react-icons/si";
-
-import { random } from "../utils";
-
-const VehicleBrand = ({ brand }) => {
-  if (brand === 'volvo') {
-    return <SiVolvo size={50} />
-  }
-
-  else if (brand === 'mercedes') {
-    return <SiMercedes size={50} />
-  }
-
-  else if (brand === 'vw') {
-    return <SiVolkswagen size={50} />
-  }
-
-  else if (brand === 'tesla') {
-    return <SiTesla size={50} />
-  }
-
-  else if (brand === 'audi') {
-    return <SiAudi size={50} />
-  }
-
-  else if (brand === 'renault') {
-    return <SiRenault size={50} />
-  }
-
-  else if (brand === 'scania') {
-    return <SiScania size={50} />
-  }
-
-  else if (brand === 'toyota') {
-    return <SiToyota size={50} />
-  }
-
-  else {
-    return <SiBmw size={50} />
-  }
-};
+import { random, VehicleBrand } from "../utils";
 
 const VehicleCard = ({ data, redirect }) => {
   return (
@@ -402,7 +360,7 @@ const VehiclesPage = () => {
                 {
                   vehicles.map((vehicle) => (
                     <div style={{ padding: 10 }}>
-                      <VehicleCard data={vehicle} />
+                      <VehicleCard data={vehicle} redirect={redirectTo}/>
                     </div>
                   ))
                 }

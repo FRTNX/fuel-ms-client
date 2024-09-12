@@ -42,7 +42,7 @@ const generateData = (params, variation = 10, rows = 10) => {
 const VehicleItem = ({ avatar, primary, secondary, redirect, target }) => {
 
   return (
-    <div style={{ width: '100%'}}>
+    <div style={{ width: '100%' }}>
       <button
         style={{ textAlign: 'left', paddingLeft: 0, paddingTop: 0, background: 'black' }}
         onClick={() => redirect(target)}
@@ -210,7 +210,9 @@ const Vehicles = () => {
         window.innerWidth < 500 && (
           <div style={{ width: '100%', background: '#000', borderRadius: 15 }}>
             <p style={{ color: '#FCDE5A', textAlign: 'center', fontWeight: 100, fontSize: 20, padding: 10, paddingLeft: 40 }}>
-              <img src={logo} width={222} />
+              <div style={{ paddingRight: window.innerWidth < 500 ? 25 : 0 }}>
+                <img src={logo} width={222} />
+              </div>
             </p>
             <div style={{ verticalAlign: 'top', paddingBottom: 0 }}>
               <VehicleChart p={0.1} />

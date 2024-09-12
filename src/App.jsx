@@ -11,6 +11,7 @@ import {
 
 import Home from './views/Home';
 import VehiclesPage from './views/VehiclesPage';
+import Vehicle from './views/Vehicle';
 import ActiveVehicles from './views/ActiveVehicles';
 import Violations from './views/Violations';
 import EventsPage from './views/Events';
@@ -26,6 +27,7 @@ function App() {
         <Route path={'/active'} element={<Violations />} />
         <Route path={'/violations'} element={<Violations />} />
         <Route path={'/events'} element={<Violations />} />
+        <Route path={'/vehicle/:license'} element={<Vehicle />} />
       </Routes>
 
     </Router>

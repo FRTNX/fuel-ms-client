@@ -62,14 +62,16 @@ const MainLayout = ({ children }) => {
           <div style={{ paddingTop: 14 }}>
             <button style={{ color: '#FCDE5A', float: 'left', padding: 0, background: 'black' }} onClick={() => toggleSidebar()}>
               {
-                sidebarOpen && (<MdMenuOpen size={36} style={{ paddingTop: 3 }} />)
+                sidebarOpen && (<MdMenu size={36} style={{ paddingTop: 3 }} />)
               }
               {
                 !sidebarOpen && (<MdMenu size={36} style={{ paddingTop: 3 }} />)
               }
             </button>
           </div>
+          <div style={{ paddingRight: window.innerWidth < 500 ? 25 : 0 }}>
           <img src={logo} height={80} />
+          </div>
         </header>
       </div>
       <div class="item2">

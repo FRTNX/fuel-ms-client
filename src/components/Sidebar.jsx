@@ -5,17 +5,23 @@ import bglog from '../assets/images/logo-text.jpg';
 
 import { FaCar, FaUsers, FaChartLine, FaTruck } from 'react-icons/fa';
 
+import { MdDashboard, MdMan4 } from 'react-icons/md';
+import { IoSpeedometer } from 'react-icons/io5';
+import { GiSpeedometer, GiStrongMan, GiSteeringWheel, GiSecretBook } from 'react-icons/gi';
+import { GrManual } from 'react-icons/gr';
+import { TiLeaf } from 'react-icons/ti';
+
 const DIVCOLOR = '#FCDE5A';
 
 const Item = ({ icon, text }) => {
   const dividerColor = DIVCOLOR;
 
   return (
-    <div style={{ width: '100%', borderBottom: `2px solid ${dividerColor}`, fontSize: 15, textAlign: 'left' }}>
-      <div style={{ display: 'inline-block', fontSize: 15, }}>
+    <div style={{ width: '100%', borderBottom: `2px solid ${dividerColor}`, fontSize: 15, textAlign: 'left', height: 45 }}>
+      <div style={{ display: 'inline-block', fontSize: 20, color: '#FCDE5A' }}>
         {icon}
       </div>
-      <div style={{ display: 'inline-block', paddingLeft: 10 }}>
+      <div style={{ display: 'inline-block', paddingLeft: 10, paddingBottom: 100, color: '#FCDE5A'  }}>
         <p style={{}}>{text}</p>
       </div>
     </div>
@@ -78,8 +84,17 @@ const SideBar = ({ open }) => {
       >
         <p style={{ fontSize: 15, color: DIVCOLOR, paddingTop: 3 }}></p>
         <MenuItem>
-          <Item icon={<FaTruck />} text={'Menu'} />
+          <Item icon={<TiLeaf />} text={'Home'} />
         </MenuItem>
+        {/* <MenuItem>
+          <Item icon={<IoSpeedometer />} text={'Vehicles'} />
+        </MenuItem> */}
+        {/* <MenuItem>
+          <Item icon={<GiSteeringWheel />} text={'Drivers'} />
+        </MenuItem>
+        <MenuItem>
+          <Item icon={<GiSecretBook />} text={'Documentation'} />
+        </MenuItem> */}
         {/* <MenuItem>
           <Item icon={<FaUsers />} text={'Drivers'} />
         </MenuItem>
