@@ -32,11 +32,12 @@ const palette = Object.values(palettes.defconOne)
 const FuelHistory = ({ p }) => {
   const rows = window.innerWidth > 500 ? 20 : 15;
   const variation = window.innerWidth > 500 ? 10 : 6;
+  const pt = window.innerWidth > 500 ? 25 : 0;
   const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows);
   const lineWeight = 2;
 
   return (
-    <div style={{ padding: p || 40, paddingTop: 25 }}>
+    <div style={{ padding: p || 40, paddingTop: pt }}>
       <p style={{ textAlign: 'left' }}>Fuel History</p>
       <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Details the most recent fuel history for this vehicle.
         Eventually you'll be able to select the time period you'd like to view fuel history for.</p>
@@ -94,7 +95,7 @@ const Vehicle = () => {
   });
 
   const [data, setData] = useState({
-    brand: { label: 'Vehicle Manufacturer', value: 'toyota', type: 'select', options: [] },
+    brand: { label: 'Vehicle Manufacturer', value: 'Toyota', type: 'select', options: [] },
     name: { label: 'Vehicle Name', value: 'Toyota 2018', type: 'select', options: [] },
     license: { label: 'License Plate', value: license, type: 'select', options: [] },
     status: { label: 'Vehicle Status', value: 'Active', type: 'select', options: [] },
@@ -110,13 +111,13 @@ const Vehicle = () => {
   return (
     <MainLayout>
       <div>
-      {
+        {
           window.innerWidth > 500 && (
             <div style={{ padding: 30, paddingTop: 50 }}>
               <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 40 }}>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                   <div style={{ padding: 40 }}>
-                    <div style={{ background: '#1d1b1b', borderRadius: 10, paddingBottom: 20 }}>
+                    <div style={{ background: '#1d1b1b', borderRadius: 10, paddingBottom: 10 }}>
                       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top', paddingTop: 20 }}>
                         <div style={{ padding: 10, paddingLeft: 18 }}>
                           <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 10, lineHeight: 0.5 }}>
@@ -159,12 +160,12 @@ const Vehicle = () => {
         {
           window.innerWidth < 500 && (
             <div style={{ padding: 1, paddingTop: 10 }}>
-              <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 40 }}>
+              <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 20 }}>
                 <div style={{ verticalAlign: 'top' }}>
                   <div style={{ padding: 10 }}>
                     <div style={{ background: '#000', borderRadius: 10, paddingBottom: 20 }}>
-                      <div style={{  verticalAlign: 'top', paddingTop: 20 }}>
-                        <div style={{ padding: 10, paddingLeft: 18 }}>
+                      <div style={{ verticalAlign: 'top', paddingTop: 20 }}>
+                        <div style={{ paddingLeft: 10 }}>
                           <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 10, lineHeight: 0.5 }}>
                             <VehicleBrand brand={vehicle.brand} size={90} />
                             <p style={{}}>{license}</p>
@@ -172,6 +173,8 @@ const Vehicle = () => {
                           </div>
                         </div>
                       </div>
+                      <FuelHistory p={15} />
+                      <DriverHistory p={15} />
                       <div style={{ verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 5 }}>
                           <Form formData={data} inline={true} width={'100%'} />
@@ -193,10 +196,6 @@ const Vehicle = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div style={{ verticalAlign: 'top' }}>
-                  <FuelHistory p={15} />
-                  <DriverHistory p={15}/>
                 </div>
               </div>
             </div>
