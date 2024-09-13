@@ -67,28 +67,28 @@ const VehicleData = ({ p, redirect }) => {
   return (
     <div style={{ padding: 40, fontSize: 13, textAlign: 'left' }}>
       <VehicleItem
-        avatar={<FaCar style={{ background: '#121212', color: 'white', borderRadius: 50, padding: 10 }} />}
+        avatar={<FaCar style={{ color: 'white', padding: 10 }} />}
         primary={'Vehicles'}
         secondary={14}
         redirect={redirect}
         target={'/vehicles'}
       />
       <VehicleItem
-        avatar={<GiMountainRoad style={{ background: '#121212', color: 'white', borderRadius: 50, padding: 10 }} />}
+        avatar={<GiMountainRoad style={{ color: 'white', padding: 10 }} />}
         primary={'Drivers'}
         secondary={7}
         redirect={redirect}
         target={'/active'}
       />
       <VehicleItem
-        avatar={<BsFuelPumpFill style={{ background: '#121212', color: 'white', borderRadius: 50, padding: 10 }} />}
+        avatar={<BsFuelPumpFill style={{ color: 'white', padding: 10 }} />}
         primary={'Violations'}
         secondary={1}
         redirect={redirect}
         target={'/violations'}
       />
       <VehicleItem
-        avatar={<SiEventstore style={{ background: '#121212', color: 'white', borderRadius: 50, padding: 10 }} />}
+        avatar={<SiEventstore style={{ color: 'white', padding: 10 }} />}
         primary={'Events'}
         secondary={2}
         redirect={redirect}
@@ -101,19 +101,22 @@ const VehicleData = ({ p, redirect }) => {
 const VehicleChart = ({ p }) => {
   const rows = window.innerWidth > 500 ? 10 : 5;
   const variation = window.innerWidth > 500 ? 15 : 6;
+  const caption = window.innerWidth > 500 ? true : false;
   const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows);
   const lineWeight = 2;
 
   return (
     <div style={{ padding: p || 40 }}>
-      <p style={{ textAlign: 'left' }}>Real-Time Fuel Levels</p>
-      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Track fuel levels for all or selected vehicles.</p>
+      <div style={{ paddingLeft: 20 }}>
+        <p style={{ textAlign: 'left' }}>Real-Time Fuel Tracking</p>
+        <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Track fuel levels for all or selected vehicles.</p>
+      </div>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <LineChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
           <Line name='Vehicle 1' type="monotone" dataKey='c1' stroke="#f5f7f8" strokeWidth={lineWeight} />
           <Line name='Vehicle 2' type="monotone" dataKey="c2" stroke="#fcde70" strokeWidth={lineWeight} activeDot={{ r: 8 }} />
           <Line name='Vehicle 3' type="monotone" dataKey="c3" stroke="#e8b86d" strokeWidth={lineWeight} />
-          <Line name='Vehicle 4' type="monotone" dataKey='c4' stroke="blue" strokeWidth={lineWeight} />
+          <Line name='Vehicle 4' type="monotone" dataKey='c4' stroke="#7fa1c3" strokeWidth={lineWeight} />
           <Line name='Vehicle 5' type="monotone" dataKey="c5" stroke="#6a9c89" strokeWidth={lineWeight} activeDot={{ r: 8 }} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white' />
@@ -195,11 +198,15 @@ const Vehicles = () => {
               <p style={{ color: '#FCDE5A', textAlign: 'center', fontWeight: 100, fontSize: 20, padding: 10, paddingLeft: 40 }}>
                 <img src={logo} width={250} />
               </p>
-              <div style={{ display: 'inline-block', width: '15%', verticalAlign: 'top' }}>
-                {/* <VehicleData redirect={redirectTo} /> */}
-              </div>
-              <div style={{ display: 'inline-block', width: '35%', verticalAlign: 'top', paddingTop: 50 }}>
-                <VehicleTable />
+
+              <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top', paddingTop: 50 }}>
+                {/* <VehicleTable /> */}
+                <div style={{ paddingLeft: 40}}>
+                  <div style={{ background: '#100f0f', borderRadius: 15, width: '90%', height: 600 }}>
+
+                  </div>
+                </div>
+
               </div>
               <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                 <VehicleChart />
