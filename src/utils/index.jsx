@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota } from "react-icons/si";
+import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota,
+         SiPeugeot } from "react-icons/si";
 
 
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
@@ -36,6 +37,10 @@ const VehicleBrand = ({ brand, size }) => {
 
   else if (brand === 'toyota') {
     return <SiToyota size={size || 50} />
+  }
+
+  else if (['peugeot', 'pegeot', 'pg'].includes(brand)) {
+    return <SiPeugeot size={size || 50} />
   }
 
   else {
