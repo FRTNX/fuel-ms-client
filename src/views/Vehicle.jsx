@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 import {
   AreaChart,
@@ -17,6 +17,23 @@ import {
 import { VehicleBrand, generateData, Form } from '../utils';
 
 import MainLayout from '../layouts/MainLayout';
+
+import { getVehicle, updateVehicle, deleteVehicle } from '../api/api';
+
+
+const offlineVehicle = {
+  _id: '',
+  manufacturer: 'toyota',
+  name: 'Toyota 2018',
+  license: 'AER-4477',
+  status: 'Active',
+  driver: 'Israel Adesanya',
+  source: 'BYO HQ',
+  destination: 'HRE HQ',
+  fuelCapacity: 15,
+  fuel: 0.78,
+  sensorId:'0bfff7a4-70e2-11ef-a666-1fc901cc4554'
+};
 
 const palettes = {
   defconOne: { primary: '#697565', secondary: '#ecdfcc' },
@@ -82,31 +99,90 @@ const DriverHistory = ({ p }) => {
 const Vehicle = () => {
   const { license } = useParams();
   const [vehicle, setVehicle] = useState({
-    brand: 'toyota',
-    name: 'Toyota 2018',
-    license: 'AER-4477',
-    status: 'Active',
-    driver: 'Israel Adesanya',
-    source: 'BYO HQ',
-    destination: 'HRE HQ',
-
-    fuel: 0.78,
-    sensorId: {}
+    _id: '',
+    manufacturer: 'toyota',
+    name: '',
+    license: '',
+    status: 'Inactive',
+    driver: '',
+    source: '',
+    destination: '',
+    fuelCapacity: '',
+    fuel: '',
+    sensorId: ''
   });
 
-  const [data, setData] = useState({
-    brand: { label: 'Vehicle Manufacturer', value: 'Toyota', type: 'select', options: [] },
-    name: { label: 'Vehicle Name', value: 'Toyota 2018', type: 'select', options: [] },
-    license: { label: 'License Plate', value: license, type: 'select', options: [] },
-    status: { label: 'Vehicle Status', value: 'Active', type: 'select', options: [] },
-    driver: { label: 'Current Driver', value: 'Themba Takawira', type: 'select', options: [] },
-    source: { label: 'Source Location', value: 'Bulawayo HQ', type: 'select', options: [] },
-    destination: { label: 'Current Destination', value: 'Harare HQ', type: 'select', options: [] },
-    fuelCapacity: { label: 'Fuel Tank Capacity (litres)', value: 10, type: 'number' },
-    sensorId: { label: 'Fuel Tank Sensor ID', value: '0bfff7a4-70e2-11ef-a666-1fc901cc4554' }
+  const [localData, setLocalData] = useState({
+    manufacturer: { label: 'Vehicle Manufacturer', value: offlineVehicle.manufacturer, type: 'select', options: [] },
+        name: { label: 'Vehicle Name', value: offlineVehicle.name, type: 'select', options: [] },
+        license: { label: 'License Plate', value: license, type: 'select', options: [] },
+        status: { label: 'Vehicle Status', value: offlineVehicle.status, type: 'select', options: [] },
+        driver: { label: 'Current Driver', value: offlineVehicle.driver, type: 'select', options: [] },
+        source: { label: 'Source Location', value: offlineVehicle.source, type: 'select', options: [] },
+        destination: { label: 'Current Destination', value: offlineVehicle.destination, type: 'select', options: [] },
+        fuelCapacity: { label: 'Fuel Tank Capacity (litres)', value: offlineVehicle.fuelCapacity, type: 'number' },
+        sensorId: { label: 'Fuel Tank Sensor ID', value: offlineVehicle.sensorId }
   });
+
+  const [data, setData] = useState(null);
 
   const [formVisible, setFormVisible] = useState(true);
+
+  const [redirect, setRedirect] = useState({ activated: false, target: '' })
+
+  useEffect(() => {
+    fetchVehicle()
+  }, []);
+
+  const fetchVehicle = async () => {
+    try {
+      const result = await getVehicle({ key: 'license', value: license });
+      console.log('got vehicle: ', result)
+      if (result) {
+        setVehicle({ ...vehicle, ...result });
+        setData({
+          manufacturer: { label: 'Vehicle Manufacturer', value: result.manufacturer, type: 'select', options: [] },
+          name: { label: 'Vehicle Name', value: result.name, type: 'select', options: [] },
+          license: { label: 'License Plate', value: license, type: 'select', options: [] },
+          status: { label: 'Vehicle Status', value: result.status, type: 'select', options: [] },
+          driver: { label: 'Current Driver', value: result.driver, type: 'select', options: [] },
+          source: { label: 'Source Location', value: result.source, type: 'select', options: [] },
+          destination: { label: 'Current Destination', value: result.destination, type: 'select', options: [] },
+          fuelCapacity: { label: 'Fuel Tank Capacity (litres)', value: result.fuelCapacity, type: 'number' },
+          sensorId: { label: 'Fuel Tank Sensor ID', value: result.sensorId }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setVehicle(offlineVehicle);
+      setData({
+       
+      });
+      setOffline(true)
+    }
+  }
+
+  const submit = async (formValues) => {
+    const params = {
+      vehicleId: vehicle._id,
+      updateValues: formValues
+    };
+
+    console.log('updating vehicle with:', params)
+    await updateVehicle(params);
+    location.reload();
+  };
+
+  const remove = async () => {
+    const result = await deleteVehicle({ key: 'license', value: license });
+    if (result) {
+      setRedirect({ activated: true, target: '/vehicles' })
+    }
+  }
+
+  if (redirect.activated) {
+    return <Navigate to={redirect.target} />
+  }
 
   return (
     <MainLayout>
@@ -121,15 +197,20 @@ const Vehicle = () => {
                       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top', paddingTop: 20 }}>
                         <div style={{ padding: 10, paddingLeft: 18 }}>
                           <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 10, lineHeight: 0.5 }}>
-                            <VehicleBrand brand={vehicle.brand} size={90} />
+                            <VehicleBrand brand={vehicle.manufacturer} size={90} />
                             <p style={{}}>{license}</p>
-                            <p style={{ color: '#557c56' }}>Active</p>
+                            <p style={{ color: vehicle.status.toLowerCase() === 'active' ? '#557c56' : 'grey' }}>{vehicle.status}</p>
                           </div>
                         </div>
                       </div>
                       <div style={{ display: 'inline-block', width: '70%', verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 50 }}>
-                          <Form formData={data} inline={true} width={'100%'} />
+                          {
+                            !data && (<Form formData={localData} inline={true} width={'100%'} />)
+                          }
+                          {
+                            data && (<Form formData={data} inline={true} width={'100%'} submitForm={submit} />)
+                          }
                         </div>
                       </div>
                       <div style={{ padding: 20 }}>
@@ -140,6 +221,7 @@ const Vehicle = () => {
                             <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Delete this vehicle along with all of it's historical data.</p>
                             <button
                               style={{ fontSize: 13, padding: 11, float: 'right', background: '#a04747' }}
+                              onClick={remove}
                             >
                               Delete
                             </button>
@@ -159,7 +241,7 @@ const Vehicle = () => {
         }
         {
           window.innerWidth < 500 && (
-            <div style={{ padding: 1, paddingTop: 10 }}>
+            <div style={{ padding: 1, paddingTop: 20 }}>
               <div style={{ width: '100%', background: '#000', borderRadius: 15, paddingBottom: 20 }}>
                 <div style={{ verticalAlign: 'top' }}>
                   <div style={{ padding: 10 }}>
@@ -167,7 +249,7 @@ const Vehicle = () => {
                       <div style={{ verticalAlign: 'top', paddingTop: 20 }}>
                         <div style={{ paddingLeft: 10 }}>
                           <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 10, lineHeight: 0.5 }}>
-                            <VehicleBrand brand={vehicle.brand} size={90} />
+                            <VehicleBrand brand={vehicle.manufacturer} size={90} />
                             <p style={{}}>{license}</p>
                             <p style={{ color: '#557c56' }}>Active</p>
                           </div>
@@ -177,7 +259,12 @@ const Vehicle = () => {
                       <DriverHistory p={15} />
                       <div style={{ verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 5 }}>
-                          <Form formData={data} inline={true} width={'100%'} />
+                          {
+                            !data && (<Form formData={localData} inline={true} width={'100%'} />)
+                          }
+                          {
+                            data && (<Form formData={data} inline={true} width={'100%'} submitForm={submit} />)
+                          }
                         </div>
                       </div>
                       <div style={{ padding: 5, paddingTop: 80 }}>
@@ -188,6 +275,7 @@ const Vehicle = () => {
                             <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Delete this vehicle along with all of it's historical data.</p>
                             <button
                               style={{ fontSize: 13, padding: 11, float: 'right', background: '#a04747' }}
+                              onClick={remove}
                             >
                               Delete
                             </button>

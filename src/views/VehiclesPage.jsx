@@ -1,14 +1,80 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+
 import MainLayout from "../layouts/MainLayout";
 import { random, VehicleBrand } from "../utils";
+
+import { registerVehicle, getVehicles } from '../api/api';
+
+const LOCAL_VEHICLES = [
+  {
+    manufacturer: 'volvo',
+    name: 'Volvo 2020',
+    license: 'AER-4477',
+    status: 'Active',
+    driver: 'Israel Adesanya',
+    source: 'BYO HQ',
+    destination: 'HRE HQ',
+    fuel: 0.78
+  },
+  {
+    manufacturer: 'daf',
+    name: 'DAF 2024',
+    license: 'GTT-5576',
+    status: 'Active',
+    driver: 'Charles Oliveira',
+    source: 'BYO HQ',
+    destination: 'BYO HQ',
+    fuel: 0.52
+  },
+  {
+    manufacturer: 'iveco',
+    name: 'Iveco 2021',
+    license: 'FAW-2641',
+    status: 'Active',
+    driver: 'Rosalind Franklin',
+    source: 'BYO HQ',
+    destination: 'HRE HQ',
+    fuel: 0.20
+  },
+  {
+    manufacturer: 'man',
+    name: 'Man 2020',
+    license: 'YGL-3301',
+    status: 'Active',
+    driver: 'Dustin Poirier',
+    source: 'BYO HQ',
+    destination: 'BYO HQ',
+    fuel: 0.81
+  },
+  {
+    manufacturer: 'scania',
+    name: 'Scania 2019',
+    license: 'DKO-9996',
+    status: 'Active',
+    driver: 'Khabib Nurmagomedov',
+    source: 'BYO HQ',
+    destination: 'BYO HQ',
+    fuel: 0.52
+  },
+  {
+    manufacturer: 'pg',
+    name: 'Peugeot 2020',
+    license: 'SSH-3581',
+    status: 'Inactive',
+    driver: 'Francis Nganau',
+    source: 'BYO HQ',
+    destination: 'None',
+    fuel: 0.41
+  },
+];
 
 const VehicleCard = ({ data, redirect }) => {
   return (
     <div style={{ background: '#1d1b1b', borderRadius: 15 }} onClick={() => redirect(`/vehicle/${data.license}`)}>
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
-          <VehicleBrand brand={data.brand} />
+          <VehicleBrand brand={data.manufacturer} />
         </div>
       </div>
       <div style={{ display: 'inline-block', width: '68%', fontSize: 13, verticalAlign: 'top', textAlign: 'left' }}>
@@ -95,64 +161,20 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
 
 
 const VehiclesPage = () => {
-  const [data, setData] = useState([
-    {
-      brand: 'volvo',
-      name: 'Volvo 2020',
-      license: 'AER-4477',
-      status: 'Active',
-      driver: 'Israel Adesanya',
-      source: 'BYO HQ',
-      destination: 'HRE HQ',
-      fuel: 0.78
-    },
-    {
-      brand: 'mercedes',
-      name: 'Mercedes 2019',
-      license: 'DKO-9996',
-      status: 'Active',
-      driver: 'Khabib Nurmagomedov',
-      source: 'BYO HQ',
-      destination: 'BYO HQ',
-      fuel: 0.52
-    },
-
-    {
-      brand: 'scania',
-      name: 'Scania 2021',
-      license: 'FAW-2641',
-      status: 'Active',
-      driver: 'Rosalind Franklin',
-      source: 'BYO HQ',
-      destination: 'HRE HQ',
-      fuel: 0.20
-    },
-    {
-      brand: 'vw',
-      name: 'Volkswagen 2017',
-      license: 'ADT-2271',
-      status: 'Inactive',
-      driver: 'Francis Nganau',
-      source: 'BYO HQ',
-      destination: 'None',
-      fuel: 0.41
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [redirect, setRedirect] = useState({ activated: false, target: '' });
   const [inputText, setInputText] = useState('');
   const [vehicles, setVehicles] = useState(data);
   const [activeVehicles, setActiveVehicles] = useState(false);
   const [lowFuelVehicles, setLowFuelVehicles] = useState(false);
-
   const [vehicleFormVisible, setVehicleFormVisible] = useState(false);
 
   const [newVehicle, setNewVehicle] = useState({
-    brand: { label: 'Vehicle Manufacturer', value: '' },
+    manufacturer: { label: 'Vehicle Manufacturer', value: '' },
     name: { label: 'Vehicle Name', value: '' },
     license: { label: 'License Plate', value: '' },
     fuelCapacity: { label: 'Fuel Tank Capacity', value: '', type: 'number' },
-    sensor: { label: 'Fuel Sensor ID', value: '' },
+    sensorId: { label: 'Fuel Sensor ID', value: '' },
     loacation: { label: 'Initial Location', value: '' },
   });
 
@@ -162,7 +184,38 @@ const VehiclesPage = () => {
     show: false
   })
 
-  const addColor = '#3c3d37'
+  const addColor = '#3c3d37';
+
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
+
+  const fetchVehicles = async () => {
+    try {
+      const result = await getVehicles({});
+      console.log('got vehicles: ', result)
+      if (result) {
+        const consolidated = consolidateVehicles(data, result)
+        setData(current => [...consolidated]);
+        setVehicles(current => [...consolidated]);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const consolidateVehicles = (local, server) => {
+    const consolidated = [];
+    const vehicleIds = local.map((vehicle) => vehicle.license);
+    server.map((vehicle) => {
+      if (!vehicleIds.includes(vehicle.license)) {
+        consolidated.push(vehicle);
+        vehicleIds.push(vehicle.license);
+      }
+    });
+    console.log('consolidated: ', vehicleIds)
+    return [...consolidated, ...local];
+  }
 
   const filterVehicles = (searchValue, active = activeVehicles, lowFuel = lowFuelVehicles) => {
     setInputText(searchValue)
@@ -183,8 +236,8 @@ const VehiclesPage = () => {
     }
 
     const filtered = copy.filter((vehicle) => {
-      const { brand, name, license, driver, source, destination } = vehicle;
-      const searchableFields = [brand, name, license, driver, destination];
+      const { manufacturer, name, license, driver, source, destination } = vehicle;
+      const searchableFields = [manufacturer, name, license, driver, destination];
       return searchableFields.some((field) => field.toLowerCase().includes(searchValue.toLowerCase()))
     });
 
@@ -208,38 +261,45 @@ const VehiclesPage = () => {
   };
 
   const toggleVehicleForm = () => {
-    setStatus({
-      message: '',
-      color: 'green',
-      show: false
-    });
-
     if (vehicleFormVisible) {
       setVehicleFormVisible(false);
     } else {
       setVehicleFormVisible(true);
+      setStatus({
+        message: '',
+        color: 'green',
+        show: false
+      });
     }
   }
 
-  const submitVehicle = (vehicle) => {
-    const augmented = {
-      ...vehicle,
-      status: 'Inactive',
-      driver: 'Unassigned',
-      source: 'None',
-      destination: 'None',
-      fuel: random(10, 100) * 0.01
+  const submitVehicle = async (vehicle) => {
+    // const augmented = {
+    //   ...vehicle,
+    //   status: 'Inactive',
+    //   driver: 'Unassigned',
+    //   source: 'None',
+    //   destination: 'None',
+    //   fuel: random(10, 100) * 0.01
+    // }
+
+    console.log('registering vehicle: ', vehicle)
+    if (!vehicle.license) {
+      console.log('missing license plate')
+      setStatus({
+        message: 'Vehicle license plate is required.',
+        color: '#a04747',
+        show: true
+      });
+    } else {
+      await registerVehicle({ ...vehicle, fuel: random(10, 100) * 0.01 });
+      setStatus({
+        message: 'Vehicle added successfully!',
+        color: '#557c56',
+        show: true
+      });
+      fetchVehicles();
     }
-
-    augmented.brand = vehicle.brand.toLowerCase()
-
-    setData(current => [...current, augmented])
-    setVehicles(current => [...current, augmented])
-    setStatus({
-      message: 'Vehicle added successfully!',
-      color: '#557c56',
-      show: true
-    });
   };
 
   const redirectTo = (target) => {
@@ -247,7 +307,7 @@ const VehiclesPage = () => {
   }
 
   if (redirect.activated) {
-    return <Navigate to={redirect.target}/>
+    return <Navigate to={redirect.target} />
   }
 
 
@@ -286,7 +346,14 @@ const VehiclesPage = () => {
                   </div>
                   <div style={{ height: 500, overflowY: 'scroll' }}>
                     {
-                      vehicles.map((vehicle) => (
+                      vehicles.length > 0 && vehicles.map((vehicle) => (
+                        <div style={{ display: 'inline-block', width: '47%', padding: 10 }}>
+                          <VehicleCard data={vehicle} redirect={redirectTo} />
+                        </div>
+                      ))
+                    }
+                    {
+                      vehicles.length === 0 && LOCAL_VEHICLES.map((vehicle) => (
                         <div style={{ display: 'inline-block', width: '47%', padding: 10 }}>
                           <VehicleCard data={vehicle} redirect={redirectTo} />
                         </div>
@@ -358,9 +425,16 @@ const VehiclesPage = () => {
               </div>
               <div style={{ width: '100%', height: 800, overflowY: 'scroll' }}>
                 {
-                  vehicles.map((vehicle) => (
+                  vehicles.length > 0 && vehicles.map((vehicle) => (
                     <div style={{ padding: 10 }}>
-                      <VehicleCard data={vehicle} redirect={redirectTo}/>
+                      <VehicleCard data={vehicle} redirect={redirectTo} />
+                    </div>
+                  ))
+                }
+                {
+                  vehicles.length === 0 && LOCAL_VEHICLES.map((vehicle) => (
+                    <div style={{ padding: 10 }}>
+                      <VehicleCard data={vehicle} redirect={redirectTo} />
                     </div>
                   ))
                 }

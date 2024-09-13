@@ -1,48 +1,74 @@
 import { useEffect, useState } from "react";
 
 import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota,
-         SiPeugeot } from "react-icons/si";
+         SiPeugeot, SiAlfaromeo, SiAstonmartin, SiBentley, SiDaf, SiIveco, SiHyundai, SiHonda,
+         SiMahindra, SiMan, SiMazda, SiMg, SiNissan, SiOpel } from "react-icons/si";
 
 
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 const VehicleBrand = ({ brand, size }) => {
-  if (brand === 'volvo') {
+  console.log('brand: ', brand)
+  const target = brand.toLowerCase();
+  if (target === 'volvo') {
     return <SiVolvo size={size || 50} />
   }
 
-  else if (brand === 'mercedes') {
+  else if (target === 'mercedes') {
     return <SiMercedes size={size || 50} />
   }
 
-  else if (brand === 'vw') {
+  else if (target === 'vw') {
     return <SiVolkswagen size={size || 50} />
   }
 
-  else if (brand === 'tesla') {
+  else if (target === 'tesla') {
     return <SiTesla size={size || 50} />
   }
 
-  else if (brand === 'audi') {
+  else if (target === 'audi') {
     return <SiAudi size={size || 50} />
   }
 
-  else if (brand === 'renault') {
+  else if (target === 'renault') {
     return <SiRenault size={size || 50} />
   }
 
-  else if (brand === 'scania') {
+  else if (target === 'scania') {
     return <SiScania size={size || 50} />
   }
 
-  else if (brand === 'toyota') {
+  else if (target === 'toyota') {
     return <SiToyota size={size || 50} />
   }
 
-  else if (['peugeot', 'pegeot', 'pg'].includes(brand)) {
+  else if (['peugeot', 'pegeot', 'pg'].includes(target)) {
     return <SiPeugeot size={size || 50} />
   }
 
+  else if (target === 'iveco') {
+    return <SiIveco size={size || 50} />
+  }
+
+  else if (target === 'daf') {
+    return <SiDaf size={size || 50} />
+  }
+
+  else if (target === 'man') {
+    return <SiMan size={size || 50} />
+  }
+
+  else if (target === 'mahindra') {
+    return <SiMahindra size={size || 50} />
+  }
+
+  else if (target === 'nissan') {
+    return <SiNissan size={size || 50} />
+  }
+
+   else if (target === 'opel') {
+    return <SiOpel size={size || 50} />
+  }
   else {
     return <SiBmw size={size || 50} />
   }

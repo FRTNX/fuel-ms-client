@@ -4,7 +4,8 @@ import SideBar from "../components/Sidebar";
 import logo from '../assets/images/logo-sym.jpg'
 
 import { MdMenu, MdMenuOpen } from "react-icons/md";
-import { AiOutlineMenu, AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
+
+import { ping } from '../api/api';
 
 import {
   GridLoader,
@@ -39,9 +40,33 @@ const closedSidebarStyle = {
 
 const MainLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 500 ? true : false);
+  const [online, setOnline] = useState(false);
 
   const p = window.innerWidth > 500 ? 0 : 10;
   const pb = window.innerWidth > 500 ? 25 : 32;
+
+  useEffect(() => {
+    const networkStatusInterval = setInterval(() => {
+      checkConnectivity();
+    }, 1000 * 5);
+
+    return () => {
+      clearInterval(networkStatusInterval);
+    }
+  }, []);
+
+  const checkConnectivity = async () => {
+    try {
+      const result = await ping();
+      if (result) {
+        setOnline(true)
+      } else {
+        setOnline(false)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const toggleSidebar = () => {
     if (window.innerWidth > 500) {
@@ -53,7 +78,9 @@ const MainLayout = ({ children }) => {
         setSidebarOpen(true)
       }
     }
-  }
+  };
+
+
 
   return (
     <div class={sidebarOpen ? "grid-container" : "grid-container-closed"}>
@@ -86,6 +113,12 @@ const MainLayout = ({ children }) => {
       </div>
       <div class="item5">
         <footer style={{ background: 'black' }}>
+          <div style={{ margin: 'auto', paddingLeft: window.innerWidth < 500 ? '49%' : '49.5%', paddingTop: 10}}>
+          <BounceLoader
+              color={online ? 'green' : 'white'}
+              size={10}
+            />
+          </div>
           <div style={{ paddingTop: 40 }}>
             <GridLoader
               color='white'
