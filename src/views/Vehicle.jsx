@@ -251,7 +251,7 @@ const Vehicle = () => {
                           <div style={{ borderRadius: 10, fontSize: 13, paddingTop: 8, paddingBottom: 10, lineHeight: 0.5 }}>
                             <VehicleBrand brand={vehicle.manufacturer} size={90} />
                             <p style={{}}>{license}</p>
-                            <p style={{ color: '#557c56' }}>Active</p>
+                            <p style={{ color: vehicle.status.toLowerCase() === 'active' ? '#557c56' : 'grey' }}>{vehicle.status}</p>
                           </div>
                         </div>
                       </div>
