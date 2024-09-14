@@ -104,16 +104,13 @@
   }
   .item1 {
     width: 400px;
-    /* height: 100px; */
-    /* position: fixed; */
-    /* top: 0; */
   }
   .item3 {
     width: 400px;
     height: 100%;
   }
   .item5 {
-    height: 0px;
+    /* height: 0px; */
     width: 400px;
   }
   .grid-container {

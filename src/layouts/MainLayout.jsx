@@ -113,13 +113,14 @@ const MainLayout = ({ children }) => {
       </div>
       <div class="item5">
         <footer style={{ background: 'black' }}>
-          <div style={{ margin: 'auto', paddingLeft: window.innerWidth < 500 ? '49%' : '49.5%', paddingTop: 10}}>
+          
+          <div style={{ paddingTop: 40 }}>
+          <div style={{ paddingLeft: window.innerWidth < 500 ? '49%' : '49.8%', paddingBottom: 10}}>
           <BounceLoader
               color={online ? 'green' : 'white'}
-              size={10}
+              size={8}
             />
           </div>
-          <div style={{ paddingTop: 40 }}>
             <GridLoader
               color='white'
               size={40}

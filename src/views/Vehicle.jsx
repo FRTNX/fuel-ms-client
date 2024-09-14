@@ -32,7 +32,7 @@ const offlineVehicle = {
   destination: 'HRE HQ',
   fuelCapacity: 15,
   fuel: 0.78,
-  sensorId:'0bfff7a4-70e2-11ef-a666-1fc901cc4554'
+  sensorId: '0bfff7a4-70e2-11ef-a666-1fc901cc4554'
 };
 
 const palettes = {
@@ -84,7 +84,7 @@ const DriverHistory = ({ p }) => {
       <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows which drivers are most frequently assigned to this vehicle.</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <BarChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-          <Bar name='Vehicle 1' type="monotone" dataKey='c1' stroke="#f5f7f8" strokeWidth={lineWeight} fill={palette[1]} />
+          <Bar name='Vehicle 1' type="monotone" dataKey='c1' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white' />
           <YAxis stroke='white' />
@@ -114,14 +114,14 @@ const Vehicle = () => {
 
   const [localData, setLocalData] = useState({
     manufacturer: { label: 'Vehicle Manufacturer', value: offlineVehicle.manufacturer, type: 'select', options: [] },
-        name: { label: 'Vehicle Name', value: offlineVehicle.name, type: 'select', options: [] },
-        license: { label: 'License Plate', value: license, type: 'select', options: [] },
-        status: { label: 'Vehicle Status', value: offlineVehicle.status, type: 'select', options: [] },
-        driver: { label: 'Current Driver', value: offlineVehicle.driver, type: 'select', options: [] },
-        source: { label: 'Source Location', value: offlineVehicle.source, type: 'select', options: [] },
-        destination: { label: 'Current Destination', value: offlineVehicle.destination, type: 'select', options: [] },
-        fuelCapacity: { label: 'Fuel Tank Capacity (litres)', value: offlineVehicle.fuelCapacity, type: 'number' },
-        sensorId: { label: 'Fuel Tank Sensor ID', value: offlineVehicle.sensorId }
+    name: { label: 'Vehicle Name', value: offlineVehicle.name, type: 'select', options: [] },
+    license: { label: 'License Plate', value: license, type: 'select', options: [] },
+    status: { label: 'Vehicle Status', value: offlineVehicle.status, type: 'select', options: [] },
+    driver: { label: 'Current Driver', value: offlineVehicle.driver, type: 'select', options: [] },
+    source: { label: 'Source Location', value: offlineVehicle.source, type: 'select', options: [] },
+    destination: { label: 'Current Destination', value: offlineVehicle.destination, type: 'select', options: [] },
+    fuelCapacity: { label: 'Fuel Tank Capacity (litres)', value: offlineVehicle.fuelCapacity, type: 'number' },
+    sensorId: { label: 'Fuel Tank Sensor ID', value: offlineVehicle.sensorId }
   });
 
   const [data, setData] = useState(null);
@@ -156,7 +156,7 @@ const Vehicle = () => {
       console.log(error);
       setVehicle(offlineVehicle);
       setData({
-       
+
       });
       setOffline(true)
     }

@@ -20,7 +20,7 @@ const Item = ({ icon, text, underline }) => {
   const dividerColor = DIVCOLOR;
 
   return (
-    <div style={{ width: '100%', borderBottom: underline ? `3px solid ${dividerColor}` : 'none', fontSize: 15, textAlign: 'left', height: 40 }}>
+    <div style={{ width: '100%', borderBottom: underline ? `5px solid ${dividerColor}` : 'none', fontSize: 15, textAlign: 'left', height: 40 }}>
       <div style={{ display: 'inline-block', fontSize: 20, color: '#FCDE5A' }}>
         {icon}
       </div>
@@ -32,21 +32,7 @@ const Item = ({ icon, text, underline }) => {
 }
 
 const SideBar = ({ open }) => {
-  const [sidebarHeight, setSidebarHeight] = useState();
-  const dividerColor = DIVCOLOR;
 
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setSidebarHeight(window.innerHeight)
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
 
 
   return (
@@ -55,11 +41,10 @@ const SideBar = ({ open }) => {
       collapsed={!open}
       collapsedWidth={'0'}
       backgroundColor='black'
-      //   image={bglog}
       rootStyles={{ height: '100%', border: 'none' }}
     >
       <div style={{ paddingTop: 19, paddingBottom: 10, paddingLeft: 0 }}>
-        <img src={bglog} width={250} onClick={<Link to={'/'} />} />
+        <img src={bglog} width={250} />
       </div>
       <Menu
         menuItemStyles={{
@@ -99,12 +84,6 @@ const SideBar = ({ open }) => {
         <MenuItem>
           <Item icon={<DiMsqlServer />} text={'Documentation'} />
         </MenuItem>
-        {/* <MenuItem>
-          <Item icon={<FaUsers />} text={'Drivers'} />
-        </MenuItem>
-        <MenuItem>
-          <Item icon={<FaChartLine />} text={'Insights'} />
-        </MenuItem> */}
       </Menu>
     </Sidebar>
   );
