@@ -18,8 +18,8 @@ import { VehicleBrand, generateData, Form } from '../utils';
 
 import MainLayout from '../layouts/MainLayout';
 
-import { getVehicle, updateVehicle, deleteVehicle } from '../api/api';
-
+import { getVehicle, getFuelHistory, updateVehicle, deleteVehicle } from '../api/api';
+import DeleteVehicleModal from '../components/DeleteVehicleModal';
 
 const offlineVehicle = {
   _id: '',
@@ -46,12 +46,29 @@ const palettes = {
 const palette = Object.values(palettes.defconOne)
 
 
-const FuelHistory = ({ p }) => {
+const FuelHistory = ({ vehicle, p }) => {
   const rows = window.innerWidth > 500 ? 20 : 15;
   const variation = window.innerWidth > 500 ? 10 : 6;
   const pt = window.innerWidth > 500 ? 25 : 0;
-  const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows);
   const lineWeight = 2;
+
+  const [data, setData] = useState(generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows))
+
+  useEffect(() => {
+    refresh();
+    const refreshInterval = setInterval(() => {
+      refresh();
+    }, 1000 * 2);
+
+    return () => {
+      clearInterval(refreshInterval);
+    }
+  }, []);
+
+  const refresh = async () => {
+    const result = await getFuelHistory(vehicle)
+    setData(result)
+  }
 
   return (
     <div style={{ padding: p || 40, paddingTop: pt }}>
@@ -60,7 +77,7 @@ const FuelHistory = ({ p }) => {
         Eventually you'll be able to select the time period you'd like to view fuel history for.</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <AreaChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-          <Area name='Vehicle 1' type="monotone" dataKey='c1' stroke="#f5f7f8" strokeWidth={lineWeight} fill={palette[0]} />
+          <Area name={vehicle} type="monotone" dataKey='fuel' stroke="#f5f7f8" strokeWidth={lineWeight} fill={palette[0]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white' />
           <YAxis stroke='white' />
@@ -216,15 +233,10 @@ const Vehicle = () => {
                       <div style={{ padding: 20 }}>
                         <p style={{ textAlign: 'left', borderBottom: '2px solid white', fontSize: 14 }}>Danger Zone</p>
                         <div style={{ paddingTop: 5 }}>
-                          <div style={{ background: 'black', borderRadius: 10, padding: 5, paddingBottom: 50, paddingLeft: 10, paddingRight: 10 }}>
+                          <div style={{ background: 'black', borderRadius: 10, padding: 5, paddingBottom: 15, paddingLeft: 10, paddingRight: 10 }}>
                             <p style={{ textAlign: 'left', fontSize: 14, }}>Delete Vehicle</p>
                             <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Delete this vehicle along with all of it's historical data.</p>
-                            <button
-                              style={{ fontSize: 13, padding: 11, float: 'right', background: '#a04747' }}
-                              onClick={remove}
-                            >
-                              Delete
-                            </button>
+                            <DeleteVehicleModal cb={remove}/>
                           </div>
                         </div>
                       </div>
@@ -232,7 +244,7 @@ const Vehicle = () => {
                   </div>
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
-                  <FuelHistory />
+                  <FuelHistory vehicle={license}/>
                   <DriverHistory />
                 </div>
               </div>
@@ -255,7 +267,7 @@ const Vehicle = () => {
                           </div>
                         </div>
                       </div>
-                      <FuelHistory p={15} />
+                      <FuelHistory p={15} vehicle={license}/>
                       <DriverHistory p={15} />
                       <div style={{ verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 5 }}>
@@ -270,15 +282,10 @@ const Vehicle = () => {
                       <div style={{ padding: 5, paddingTop: 80 }}>
                         <p style={{ textAlign: 'left', borderBottom: '2px solid white', fontSize: 14 }}>Danger Zone</p>
                         <div style={{ paddingTop: 5 }}>
-                          <div style={{ background: '#1d1b1b', borderRadius: 10, padding: 5, paddingBottom: 50, paddingLeft: 10, paddingRight: 10 }}>
+                          <div style={{ background: '#1d1b1b', borderRadius: 10, padding: 5, paddingBottom: 15, paddingLeft: 10, paddingRight: 10 }}>
                             <p style={{ textAlign: 'left', fontSize: 14, }}>Delete Vehicle</p>
                             <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Delete this vehicle along with all of it's historical data.</p>
-                            <button
-                              style={{ fontSize: 13, padding: 11, float: 'right', background: '#a04747' }}
-                              onClick={remove}
-                            >
-                              Delete
-                            </button>
+                            <DeleteVehicleModal cb={remove}/>
                           </div>
                         </div>
                       </div>

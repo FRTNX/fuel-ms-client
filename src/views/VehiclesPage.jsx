@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { random, VehicleBrand } from "../utils";
 
-import { registerVehicle, getVehicles } from '../api/api';
+import { registerVehicle, getVehicles, getVehicle } from '../api/api';
 
 const LOCAL_VEHICLES = [
   {
@@ -70,21 +70,43 @@ const LOCAL_VEHICLES = [
 ];
 
 const VehicleCard = ({ data, redirect }) => {
+  const [vehicle, setVehicle] = useState(data);
+
+  useEffect(() => {
+    const refreshInterval = setInterval(() => {
+      refresh();
+    }, 1000 * 2);
+
+    return () => {
+      clearInterval(refreshInterval);
+    }
+  }, []);
+
+  const refresh = async () => {
+    const result = await getVehicle({ key: 'license', value: vehicle.license });
+    console.log('vehicle card result:', result)
+    if (result) {
+      setVehicle(result)
+    }
+  }
   return (
-    <div style={{ background: '#1d1b1b', borderRadius: 15 }} onClick={() => redirect(`/vehicle/${data.license}`)}>
+    <div style={{ background: '#1d1b1b', borderRadius: 15 }} onClick={() => redirect(`/vehicle/${vehicle.license}`)}>
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
-          <VehicleBrand brand={data.manufacturer} />
+          <VehicleBrand brand={vehicle.manufacturer} />
         </div>
       </div>
       <div style={{ display: 'inline-block', width: '68%', fontSize: 13, verticalAlign: 'top', textAlign: 'left' }}>
-        <p>Name: {data.name}</p>
-        <p>License Plate: {data.license}</p>
-        <p>Status: {data.status}</p>
-        <p>Driver: {data.driver}</p>
-        {/* <p>Source: {data.source}</p> */}
-        <p>Destination: {data.destination}</p>
-        <p>Fuel: {data.fuel * 100}%</p>
+        <p>Name: {vehicle.name}</p>
+        <p>License Plate: {vehicle.license}</p>
+        <p>Status: {vehicle.status}</p>
+        <p>Driver: {vehicle.driver}</p>
+        {/* <p>Source: {vehicle.source}</p> */}
+        <p>Destination: {vehicle.destination}</p>
+        <div>
+          <p style={{ display: 'inline-block' }}>Fuel: {' '}</p>
+          <p style={{ color: vehicle.fuel > 0.5 ? 'green' : 'red',  display: 'inline-block', paddingLeft: 3 }}>{Number(vehicle.fuel * 100).toFixed(0)}%</p>
+        </div>
       </div>
     </div>
   )

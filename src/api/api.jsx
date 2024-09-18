@@ -103,6 +103,24 @@ const deleteVehicle = async ({ key, value }) => {
   }
 };
 
+const getFuelHistory = async (vehicle=null) => {
+  try {
+    console.log('api func got vehicle: ', vehicle)
+    const query = vehicle ? `?vehicle=${vehicle}` : '';
+    const response = await fetch(`${config.baseUrl}/api/v0/sensor${query}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const ping = async () => {
   try {
     const response = await fetch(`${config.baseUrl}/api/v0/ping`, {
@@ -124,6 +142,7 @@ export {
   updateVehicle,
   getVehicle,
   getVehicles,
+  getFuelHistory,
   deleteVehicle,
   ping
 };

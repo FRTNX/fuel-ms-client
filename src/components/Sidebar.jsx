@@ -79,7 +79,7 @@ const SideBar = ({ open }) => {
           <Item icon={<MdOutlineHive style={{ paddingBotton: 1}}/>} text={'Vehicles'} />
         </MenuItem>
         <MenuItem>
-          <Item icon={<FaConnectdevelop />} text={'Drivers'} />
+          <Item icon={<FaConnectdevelop />} text={'Settings'} />
         </MenuItem>
         <MenuItem>
           <Item icon={<DiMsqlServer />} text={'Documentation'} />

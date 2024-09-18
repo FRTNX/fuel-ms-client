@@ -46,6 +46,7 @@ const MainLayout = ({ children }) => {
   const pb = window.innerWidth > 500 ? 25 : 32;
 
   useEffect(() => {
+    checkConnectivity();
     const networkStatusInterval = setInterval(() => {
       checkConnectivity();
     }, 1000 * 5);
@@ -59,7 +60,8 @@ const MainLayout = ({ children }) => {
     try {
       const result = await ping();
       if (result) {
-        setOnline(true)
+        setOnline(true);
+        // location.reload();
       } else {
         setOnline(false)
       }
@@ -97,7 +99,7 @@ const MainLayout = ({ children }) => {
             </button>
           </div>
           <div style={{ paddingRight: window.innerWidth < 500 ? 25 : 0 }}>
-          <img src={logo} height={80} />
+            <img src={logo} height={80} />
           </div>
         </header>
       </div>
@@ -113,14 +115,13 @@ const MainLayout = ({ children }) => {
       </div>
       <div class="item5">
         <footer style={{ background: 'black' }}>
-          
           <div style={{ paddingTop: 40 }}>
-          <div style={{ paddingLeft: window.innerWidth < 500 ? '49%' : '49.8%', paddingBottom: 10}}>
-          <BounceLoader
-              color={online ? 'green' : 'white'}
-              size={8}
-            />
-          </div>
+            <div style={{ paddingLeft: window.innerWidth < 500 ? '49%' : '49.8%', paddingBottom: 10 }}>
+              <BounceLoader
+                color={online ? 'green' : 'white'}
+                size={8}
+              />
+            </div>
             <GridLoader
               color='white'
               size={40}
