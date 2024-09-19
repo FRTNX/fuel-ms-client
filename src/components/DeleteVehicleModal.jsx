@@ -76,7 +76,8 @@ const DeleteVehicleModal = ({ cb }) => {
         >
           <div>
             <p>Are you sure?</p>
-            <p style={{ fontSize: 13, color: 'grey' }}>This will permanently delete this vehicle from this universe. You'll have to hop on to an alternate timeline to find it again, if you believe in multiverse theory, that is.</p>
+            <p style={{ fontSize: 13, color: 'grey' }}>This will permanently delete this vehicle from this universe. 
+            You'll have to hop on to an alternate timeline to find it again, if you believe in multiverse theory, that is.</p>
           </div>
           <div style={{}}>
             <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
@@ -98,10 +99,6 @@ const DeleteVehicleModal = ({ cb }) => {
                 Nervermind
               </button>
             </div>
-
-          
-
-
           </div>
         </Modal>
       </div>

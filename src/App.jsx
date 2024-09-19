@@ -15,6 +15,7 @@ import Vehicle from './views/Vehicle';
 import ActiveVehicles from './views/ActiveVehicles';
 import Violations from './views/Violations';
 import EventsPage from './views/Events';
+import Settings from './views/Settings';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +28,7 @@ function App() {
         <Route path={'/active'} element={<Violations />} />
         <Route path={'/violations'} element={<Violations />} />
         <Route path={'/events'} element={<Violations />} />
+        <Route path={'/settings'} element={<Settings />} />
         <Route path={'/vehicle/:license'} element={<Vehicle />} />
       </Routes>
 

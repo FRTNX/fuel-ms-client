@@ -3,14 +3,10 @@ import { Sidebar, Menu, MenuItem, SubMenu, sidebarClasses } from 'react-pro-side
 import { Link } from 'react-router-dom';
 import bglog from '../assets/images/logo-text.jpg';
 
-import { FaCar, FaUsers, FaChartLine, FaTruck } from 'react-icons/fa';
-
 import { MdDashboard, MdMan4, MdOutlineHive } from 'react-icons/md';
-import { IoSpeedometer } from 'react-icons/io5';
-import { GiSpeedometer, GiStrongMan, GiSteeringWheel, GiSecretBook } from 'react-icons/gi';
-import { GrManual } from 'react-icons/gr';
 import { TiLeaf } from 'react-icons/ti';
 import { FaConnectdevelop } from 'react-icons/fa';
+import { CiSettings } from 'react-icons/ci';
 
 import { DiMsqlServer } from 'react-icons/di';
 
@@ -20,7 +16,7 @@ const Item = ({ icon, text, underline }) => {
   const dividerColor = DIVCOLOR;
 
   return (
-    <div style={{ width: '100%', borderBottom: underline ? `5px solid ${dividerColor}` : 'none', fontSize: 15, textAlign: 'left', height: 40 }}>
+    <div style={{ width: '100%', borderBottom: underline ? `3px solid ${dividerColor}` : 'none', fontSize: 15, textAlign: 'left', height: 40 }}>
       <div style={{ display: 'inline-block', fontSize: 20, color: '#FCDE5A' }}>
         {icon}
       </div>
@@ -78,8 +74,8 @@ const SideBar = ({ open }) => {
         <MenuItem component={<Link to={'/vehicles'} />}>
           <Item icon={<MdOutlineHive style={{ paddingBotton: 1}}/>} text={'Vehicles'} />
         </MenuItem>
-        <MenuItem>
-          <Item icon={<FaConnectdevelop />} text={'Settings'} />
+        <MenuItem component={<Link to={'/settings'} />} >
+          <Item icon={<CiSettings />} text={'Settings'} />
         </MenuItem>
         <MenuItem>
           <Item icon={<DiMsqlServer />} text={'Documentation'} />

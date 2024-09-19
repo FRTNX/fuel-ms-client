@@ -81,7 +81,7 @@ const VehicleData = ({ p, redirect }) => {
         primary={'Settings'}
         secondary={'Set fuel policies, email recpients, etc.,'}
         redirect={redirect}
-        target={'/active'}
+        target={'/settings'}
         underline={false}
       />
     </div>
