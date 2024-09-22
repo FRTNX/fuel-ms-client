@@ -105,7 +105,6 @@ const deleteVehicle = async ({ key, value }) => {
 
 const getFuelHistory = async (vehicle=null) => {
   try {
-    console.log('api func got vehicle: ', vehicle)
     const query = vehicle ? `?vehicle=${vehicle}` : '';
     const response = await fetch(`${config.baseUrl}/api/v0/sensor${query}`, {
       method: 'GET',
@@ -137,6 +136,123 @@ const ping = async () => {
   }
 };
 
+
+const getEmailRecipients = async () => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/emails`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addEmailRecipient = async (params) => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/email`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    });
+  
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const removeEmailRecipient = async (recipientId) => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/email?id=${recipientId}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const updateEmailRecipient = async (params) => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/email`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const updateFuelThreshold = async (params) => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/fuelpolicy`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getFuelThreshold = async () => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/fuelpolicy`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const pingSensors = async () => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/sensors/ping`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   registerVehicle,
   updateVehicle,
@@ -144,5 +260,12 @@ export {
   getVehicles,
   getFuelHistory,
   deleteVehicle,
-  ping
+  ping,
+  pingSensors,
+  addEmailRecipient,
+  getEmailRecipients,
+  updateEmailRecipient,
+  removeEmailRecipient,
+  getFuelThreshold,
+  updateFuelThreshold
 };

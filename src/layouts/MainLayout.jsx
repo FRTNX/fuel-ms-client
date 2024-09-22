@@ -3,31 +3,13 @@ import { useState, useEffect } from "react";
 import SideBar from "../components/Sidebar";
 import logo from '../assets/images/logo-sym.jpg'
 
-import { MdMenu, MdMenuOpen } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 
-import { ping } from '../api/api';
+import { ping, pingSensors } from '../api/api';
 
 import {
   GridLoader,
-  BeatLoader,
-  BarLoader,
-  HashLoader,
-  ClimbingBoxLoader,
-  BounceLoader,
-  PacmanLoader,
-  PropagateLoader,
-  PulseLoader,
-  PuffLoader,
-  MoonLoader,
-  ScaleLoader,
-  SyncLoader,
-  ClipLoader,
-  FadeLoader,
-  RiseLoader,
-  DotLoader,
-  RingLoader,
-  RotateLoader,
-  CircleLoader
+  BounceLoader
 } from 'react-spinners';
 
 const openSidebarStyle = {
@@ -47,12 +29,24 @@ const MainLayout = ({ children }) => {
 
   useEffect(() => {
     checkConnectivity();
+
     const networkStatusInterval = setInterval(() => {
       checkConnectivity();
     }, 1000 * 5);
 
     return () => {
       clearInterval(networkStatusInterval);
+    }
+  }, []);
+
+  useEffect(() => {
+    pingSensors();
+    const sensorPingInterval = setInterval(() => {
+      pingSensors();
+    }, 1000 * 15);
+
+    return () => {
+      clearInterval(sensorPingInterval);
     }
   }, []);
 

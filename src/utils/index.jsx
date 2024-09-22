@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota,
-         SiPeugeot, SiAlfaromeo, SiAstonmartin, SiBentley, SiDaf, SiIveco, SiHyundai, SiHonda,
-         SiMahindra, SiMan, SiMazda, SiMg, SiNissan, SiOpel } from "react-icons/si";
+import {
+  SiVolkswagen, SiVolvo, SiBmw, SiMercedes, SiTesla, SiAudi, SiRenault, SiScania, SiToyota,
+  SiPeugeot, SiAlfaromeo, SiAstonmartin, SiBentley, SiDaf, SiIveco, SiHyundai, SiHonda,
+  SiMahindra, SiMan, SiMazda, SiMg, SiNissan, SiOpel
+} from "react-icons/si";
 
 
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
@@ -66,7 +68,19 @@ const VehicleBrand = ({ brand, size }) => {
     return <SiNissan size={size || 50} />
   }
 
-   else if (target === 'opel') {
+  else if (target === 'mazda') {
+    return <SiMazda size={size || 50} />
+  }
+
+  else if (target === 'honda') {
+    return <SiHonda size={size || 50} />
+  }
+
+  else if (target === 'nissan') {
+    return <SiHyundai size={size || 50} />
+  }
+
+  else if (target === 'opel') {
     return <SiOpel size={size || 50} />
   }
   else {
@@ -74,7 +88,7 @@ const VehicleBrand = ({ brand, size }) => {
   }
 };
 
-const Form = ({ formData, width, display, submitForm, toggleForm, inline }) => {
+const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inline }) => {
   const [data, setData] = useState(formData);
 
   /**
@@ -130,7 +144,7 @@ const Form = ({ formData, width, display, submitForm, toggleForm, inline }) => {
       <div style={{ paddingTop: 5 }}>
         <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
           <button
-            style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66' }}
+            style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66', ...submitBtn }}
             onClick={submit}
           >Submit</button>
         </div>
