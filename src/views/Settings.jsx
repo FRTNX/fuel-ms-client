@@ -19,6 +19,7 @@ const EmailRecipient = ({ recipient }) => {
 
   const [edit, setEdit] = useState(false);
 
+  const mobile = window.innerWidth < 500;
 
   useEffect(() => {
     setData(recipient)
@@ -54,7 +55,7 @@ const EmailRecipient = ({ recipient }) => {
       <div style={{ display: 'inline-block', width: '60%' }}>
         <label style={{ fontSize: 13 }}>{data.name}</label>
         <input
-          style={{ width: edit ? '98%' : '100%' }}
+          style={{ width: edit ? '97%' : '100%' }}
           type='text'
           value={data.email}
           disabled={!edit}
@@ -296,13 +297,42 @@ const Settings = () => {
                 <div style={{ paddingTop: 50 }}>
                   <p style={{ fontSize: 15 }}>Email Recipients</p>
                   <p style={{ color: 'grey', fontSize: 13 }}>
-                    Add, edit, and/or remove email addresses that will receive notifications alerting them of threshold violations and other events.
+                  Use the options below to add, edit, or delete email notification recipients.
                   </p>
+                  <div style={{ paddingTop: 10, paddingBottom: 30 }}>
+                    <div style={{ width: '97%', border: '2px solid grey', paddingBottom: 50, paddingRight: 10, borderRadius: 15 }}>
+                      <p style={{ paddingLeft: 10, fontSize: 15 }}>Add a new email recipient</p>
+                      <p style={{ color: 'grey', fontSize: 13, paddingLeft: 10 }}>
+                        Simply add the name of the recipient and their email address and you're good to go :)
+                      </p>
+                      {
+                        displayForm && (
+                          <Form
+                            formData={formSchema}
+                            width={'100%'}
+                            submitForm={submitRecipient}
+                            submitBtn={{ background: '#FCDE5A', color: 'black' }}
+                            toggleForm={toggleForm}
+                          />
+                        )
+                      }
+                      {
+                        !displayForm && (
+                          <div style={{ float: 'right' }}>
+                            <button onClick={toggleForm}>Add Email</button>
+                          </div>
+                        )
+                      }
+                    </div>
+                  </div>
                   <div>
+                    <div>
+                      <p>Current Recipients</p>
+                    </div>
                     {
                       emailRecipients.map((recipient) => (
                         <div style={{ paddingBottom: 10 }}>
-                          <EmailRecipient name={recipient.name} email={recipient.email} />
+                          <EmailRecipient recipient={recipient} />
                         </div>
                       ))
                     }
