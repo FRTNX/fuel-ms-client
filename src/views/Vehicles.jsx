@@ -141,9 +141,9 @@ const VehicleChart = ({ vehicles, p }) => {
               }
               <CartesianGrid stroke="grey" strokeDasharray="3 3" />
               <XAxis stroke='white'>
-            <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/>
+            {/* <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/> */}
           </XAxis>
-          <YAxis stroke='white' label={{ value: 'Fuel (%)', angle: 270, position: 'inside', padding: 10}}/>
+          <YAxis stroke='white'/>
               <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
               {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
             </LineChart>
