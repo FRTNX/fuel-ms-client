@@ -62,7 +62,7 @@ const DeleteEmailModal = ({ cb }) => {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               width: window.innerWidth > 500 ? 500 : 300,
-              height: window.innerWidth > 500 ? 150 : 185,
+              height: window.innerWidth > 500 ? 150 : 162,
               border: '1px solid grey',
               background: '#111111',
               overflow: 'auto',
@@ -76,7 +76,7 @@ const DeleteEmailModal = ({ cb }) => {
         >
           <div>
             <p>Are you sure?</p>
-            <p style={{ fontSize: 13, color: 'grey' }}>This email address will no longer recieve notifications for fuel violations.</p>
+            <p style={{ fontSize: 13, color: 'grey' }}>This email address will no longer recieve notifications for fuel violations and abnormal consumption.</p>
           </div>
           <div style={{}}>
             <div style={{ display: 'inline-block', float: 'right', paddingLeft: 6 }}>

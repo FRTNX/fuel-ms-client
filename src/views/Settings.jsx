@@ -281,19 +281,40 @@ const Settings = () => {
                 <p style={{ color: 'grey', fontSize: 13 }}>Set a fuel threshold that all vehicles should adhere to. The threshold is described as a percentage.
                   Fuel readings below this threshold will trigger email notifications.
                 </p>
-                <div>
-                  <div style={{ display: 'inline-block', width: '70%' }}>
-                    <label style={{ fontSize: 13 }}>Fuel Threshold (%)</label>
-                    <input
-                      style={{ width: '100%' }}
-                      type='number'
-                      value={threshold}
-                    />
-                  </div>
-                  <div style={{ display: 'inline-block', paddingLeft: 18 }}>
-                    <button style={{ background: '#FCDE5A', color: 'black' }}>Update</button>
-                  </div>
-                </div>
+                <div style={{ width: '100%'}}>
+                      <div style={{ display: 'inline-block', width: !edit ? '70%' : '60%' }}>
+                        <label style={{ fontSize: 13 }}>Fuel Threshold (%)</label>
+                        <input
+                          style={{ width: edit ? '98%' : '100%' }}
+                          type='number'
+                          value={threshold}
+                          disabled={!edit}
+                          onChange={(e) => setThreshold(e.target.value)}
+                        />
+                      </div>
+                      {
+                        !edit && (
+                          <div style={{ display: 'inline-block' }}>
+                            <div style={{ display: 'inline-block', paddingLeft: 18 }}>
+                              <button style={{ background: '#FCDE5A', color: 'black' }} onClick={toggleEdit}>Edit</button>
+                            </div>
+                          </div>
+                        )
+                      }
+                      {
+                        edit && (
+                          <div style={{ display: 'inline-block' }}>
+
+                            <div style={{ display: 'inline-block', paddingLeft: 12 }}>
+                              <button style={{ background: '', color: 'white' }} onClick={toggleEdit}>Cancel</button>
+                            </div>
+                            <div style={{ display: 'inline-block', paddingLeft: 5 }}>
+                              <button style={{ background: '#FCDE5A', color: 'black' }} onClick={submitFuelThreshold} disabled={submitting}>Save</button>
+                            </div>
+                          </div>
+                        )
+                      }
+                    </div>
                 <div style={{ paddingTop: 50 }}>
                   <p style={{ fontSize: 15 }}>Email Recipients</p>
                   <p style={{ color: 'grey', fontSize: 13 }}>

@@ -4,6 +4,7 @@ import {
   LineChart,
   Line,
   Legend,
+  Label,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -126,7 +127,7 @@ const VehicleChart = ({ vehicles, p }) => {
   }
 
   return (
-    <div style={{ padding: p || 40 }}>
+    <div style={{ padding: p || 40, fontSize: 13 }}>
       <div style={{ paddingLeft: 20 }}>
         <p style={{ textAlign: 'left' }}>Real-Time Fuel Tracking</p>
         <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Track fuel levels for all or selected vehicles.</p>
@@ -139,8 +140,10 @@ const VehicleChart = ({ vehicles, p }) => {
                 vehicles.map((vehicle, index) => (<Line name={vehicle.license} type="monotone" dataKey={vehicle.license} stroke={palette[index]} strokeWidth={lineWeight} />))
               }
               <CartesianGrid stroke="grey" strokeDasharray="3 3" />
-              <XAxis stroke='white' />
-              <YAxis stroke='white' />
+              <XAxis stroke='white'>
+            <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/>
+          </XAxis>
+          <YAxis stroke='white' label={{ value: 'Fuel (%)', angle: 270, position: 'inside', padding: 10}}/>
               <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
               {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
             </LineChart>

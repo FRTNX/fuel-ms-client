@@ -102,8 +102,8 @@ const VehicleCard = ({ data, redirect }) => {
         <p>Status: {vehicle.status}</p>
         <p>Driver: {vehicle.driver}</p>
         {/* <p>Source: {vehicle.source}</p> */}
-        <p>Destination: {vehicle.destination}</p>
-        <div>
+        <p style={{ lineHeight: 1, paddingTop: 5}}>Destination: {vehicle.destination}</p>
+        <div style={{ lineHeight: 0, paddingBottom: 10}}>
           <p style={{ display: 'inline-block' }}>Fuel: {' '}</p>
           <p style={{ color: vehicle.fuel > 0.5 ? 'green' : 'red',  display: 'inline-block', paddingLeft: 3 }}>{Number(vehicle.fuel * 100).toFixed(0)}%</p>
         </div>

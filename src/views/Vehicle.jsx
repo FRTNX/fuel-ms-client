@@ -7,6 +7,7 @@ import {
   BarChart,
   Bar,
   Legend,
+  Label,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -71,7 +72,7 @@ const FuelHistory = ({ vehicle, p }) => {
   }
 
   return (
-    <div style={{ padding: p || 40, paddingTop: pt }}>
+    <div style={{ padding: p || 40, paddingTop: pt, fontSize: 13 }}>
       <p style={{ textAlign: 'left' }}>Fuel History</p>
       <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Details the most recent fuel history for this vehicle.
         Eventually you'll be able to select the time period you'd like to view fuel history for.</p>
@@ -79,8 +80,10 @@ const FuelHistory = ({ vehicle, p }) => {
         <AreaChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
           <Area name={vehicle} type="monotone" dataKey='fuel' stroke="#f5f7f8" strokeWidth={lineWeight} fill={palette[0]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
-          <XAxis stroke='white' />
-          <YAxis stroke='white' />
+          <XAxis stroke='white'>
+            <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/>
+          </XAxis>
+          <YAxis stroke='white' label={{ value: 'Fuel (%)', angle: 270, position: 'insideLeft'}}/>
           <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
           {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
         </AreaChart>
@@ -96,15 +99,17 @@ const DriverHistory = ({ p }) => {
   const lineWeight = 2;
 
   return (
-    <div style={{ padding: p || 40, paddingTop: 10 }}>
+    <div style={{ padding: p || 40, paddingTop: 10, fontSize: 13 }}>
       <p style={{ textAlign: 'left' }}>Driver History</p>
       <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows which drivers are most frequently assigned to this vehicle.</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <BarChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-          <Bar name='Vehicle 1' type="monotone" dataKey='c1' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
+          <Bar name='Driver' type="monotone" dataKey='c1' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
-          <XAxis stroke='white' />
-          <YAxis stroke='white' />
+          <XAxis stroke='white'>
+            <Label value={'Drivers'} offset={0} position={'insideBottom'}/>
+          </XAxis>
+          <YAxis stroke='white' label={{ value: 'Assignments', angle: 270, position: 'insideLeft'}}/>
           <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
           {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
         </BarChart>
@@ -267,8 +272,8 @@ const Vehicle = () => {
                           </div>
                         </div>
                       </div>
-                      <FuelHistory p={15} vehicle={license}/>
-                      <DriverHistory p={15} />
+                      <FuelHistory p={10} vehicle={license}/>
+                      <DriverHistory p={10} />
                       <div style={{ verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 5 }}>
                           {
