@@ -55,7 +55,7 @@ const EmailRecipient = ({ recipient }) => {
       <div style={{ display: 'inline-block', width: '60%' }}>
         <label style={{ fontSize: 13 }}>{data.name}</label>
         <input
-          style={{ width: edit ? '97%' : '100%' }}
+          style={{ width: edit ? '98%' : '100%' }}
           type='text'
           value={data.email}
           disabled={!edit}
@@ -68,7 +68,7 @@ const EmailRecipient = ({ recipient }) => {
             <div style={{ display: 'inline-block', paddingLeft: 18 }}>
               <button style={{ background: '#FCDE5A', color: 'black' }} onClick={toggleEdit}>Edit</button>
             </div>
-            <div style={{ display: 'inline-block', paddingLeft: 7, verticalAlign: 'bottom' }}>
+            <div style={{ display: 'inline-block', paddingLeft: 5, verticalAlign: 'bottom' }}>
               {/* <button style={{ background: '', color: 'white' }}>Delete</button> */}
               <DeleteEmailModal cb={remove} />
             </div>
@@ -79,7 +79,7 @@ const EmailRecipient = ({ recipient }) => {
         edit && (
           <div style={{ display: 'inline-block' }}>
 
-            <div style={{ display: 'inline-block', paddingLeft: 9 }}>
+            <div style={{ display: 'inline-block', paddingLeft: 11 }}>
               <button style={{ background: '', color: 'white' }} onClick={toggleEdit}>Cancel</button>
             </div>
             <div style={{ display: 'inline-block', paddingLeft: 7 }}>
