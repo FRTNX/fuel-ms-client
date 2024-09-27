@@ -239,6 +239,8 @@ const Settings = () => {
                                 submitForm={submitRecipient}
                                 submitBtn={{ background: '#FCDE5A', color: 'black' }}
                                 toggleForm={toggleForm}
+                                toggle={false}
+                                editMode={true}
                               />
                             )
                           }

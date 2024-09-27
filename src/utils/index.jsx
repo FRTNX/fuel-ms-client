@@ -88,15 +88,18 @@ const VehicleBrand = ({ brand, size }) => {
   }
 };
 
-const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inline }) => {
+const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inline, editMode, toggle }) => {
+  const ORIGINAL_DATA = { ...formData };  // helps reset the form if a user cancels an edit 
+  const togglable = toggle;
   const [data, setData] = useState(formData);
+  const [edit, setEdit] = useState(editMode);
 
   /**
    * reset form fields
    */
   const reset = () => {
     const copy = { ...data }
-    Object.keys(data).map((key) => copy[key].value = '');
+    Object.keys(data).map((key) => copy[key].value = ORIGINAL_DATA[key].value);
     setData(copy);
   }
 
@@ -118,6 +121,17 @@ const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inl
     setData(copy);
   };
 
+  const toggleEdit = () => {
+    if (togglable) {
+      if (edit) {
+        reset();
+        setEdit(false);
+      } else {
+        setEdit(true);
+      }
+    }
+  }
+
   return (
     <div style={{ paddingTop: 40 }}>
       <div>
@@ -135,6 +149,7 @@ const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inl
                   style={{ width: '100%', height: 35, border: 'none', borderRadius: 5, paddingLeft: 5 }}
                   value={data[key].value}
                   onChange={(e) => handleChange(e, key)}
+                  disabled={!edit}
                 />
               </div>
             </div>
@@ -142,18 +157,34 @@ const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inl
         }
       </div>
       <div style={{ paddingTop: 5 }}>
-        <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
-          <button
-            style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66', ...submitBtn }}
-            onClick={submit}
-          >Submit</button>
-        </div>
-        <div style={{ display: 'inline-block', float: 'right' }}>
-          <button
-            style={{ fontSize: 13, padding: 11, float: 'right', background: '#3c3d37' }}
-            onClick={cancel}
-          >Cancel</button>
-        </div>
+        {
+          edit && (
+            <div>
+              <div style={{ display: 'inline-block', float: 'right', paddingLeft: 8 }}>
+                <button
+                  style={{ fontSize: 13, padding: 11, float: 'right', background: '#FCDE5A', color: 'black', ...submitBtn }}
+                  onClick={submit}
+                >Submit</button>
+              </div>
+              <div style={{ display: 'inline-block', float: 'right' }}>
+                <button
+                  style={{ fontSize: 13, padding: 11, float: 'right', background: 'grey', color: 'white' }}
+                  onClick={toggleEdit}
+                >Cancel</button>
+              </div>
+            </div>
+          )
+        }
+        {
+          !edit && (
+            <div style={{ display: 'inline-block', float: 'right', paddingLeft: 8 }}>
+              <button
+                style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66' }}
+                onClick={toggleEdit}
+              >Edit</button>
+            </div>
+          )
+        }
       </div>
     </div>
   )
