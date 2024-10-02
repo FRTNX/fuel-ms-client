@@ -94,6 +94,11 @@ const VehicleCard = ({ data, redirect }) => {
       <div style={{ display: 'inline-block', width: '30%', verticalAlign: 'top' }}>
         <div style={{ padding: 15 }}>
           <VehicleBrand brand={vehicle.manufacturer} />
+          <div style={{ fontSize: 13 }}>
+            <p style={{ color: vehicle.consumptionStatus === 'abnormal' ? '#c03131' : 'white' }}>{vehicle.consumptionStatus || 'nominal'}</p>
+            <p>{Number(vehicle.standardConsumptionRate)?.toFixed(2) || 4.54}</p>
+            <p>{Number(vehicle.consumptionRate)?.toFixed(2) || 4.44}</p>
+          </div>
         </div>
       </div>
       <div style={{ display: 'inline-block', width: '68%', fontSize: 13, verticalAlign: 'top', textAlign: 'left' }}>
@@ -102,10 +107,10 @@ const VehicleCard = ({ data, redirect }) => {
         <p>Status: {vehicle.status}</p>
         <p>Driver: {vehicle.driver}</p>
         {/* <p>Source: {vehicle.source}</p> */}
-        <p style={{ lineHeight: 1, paddingTop: 5}}>Destination: {vehicle.destination}</p>
-        <div style={{ lineHeight: 0, paddingBottom: 10}}>
+        <p style={{ lineHeight: 1, paddingTop: 5 }}>Destination: {vehicle.destination}</p>
+        <div style={{ lineHeight: 0, paddingBottom: 10 }}>
           <p style={{ display: 'inline-block' }}>Fuel: {' '}</p>
-          <p style={{ color: vehicle.fuel > 0.5 ? 'green' : 'red',  display: 'inline-block', paddingLeft: 3 }}>{Number(vehicle.fuel * 100).toFixed(0)}%</p>
+          <p style={{ color: vehicle.fuel > 0.5 ? 'green' : '#c03131', display: 'inline-block', paddingLeft: 3 }}>{Number(vehicle.fuel * 100).toFixed(0)}%</p>
         </div>
       </div>
     </div>
@@ -165,7 +170,7 @@ const Form = ({ formData, width, display, submitForm, toggleForm }) => {
       <div style={{ paddingTop: 5 }}>
         <div style={{ display: 'inline-block', float: 'right', paddingLeft: 10 }}>
           <button
-            style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66' }}
+            style={{ fontSize: 13, padding: 11, float: 'right', background: '#FCDE5A', color: 'black' }}
             onClick={submit}
           >Submit</button>
         </div>

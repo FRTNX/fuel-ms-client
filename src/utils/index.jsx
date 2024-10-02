@@ -76,7 +76,7 @@ const VehicleBrand = ({ brand, size }) => {
     return <SiHonda size={size || 50} />
   }
 
-  else if (target === 'nissan') {
+  else if (target === 'hyundai') {
     return <SiHyundai size={size || 50} />
   }
 
@@ -179,7 +179,7 @@ const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inl
           !edit && (
             <div style={{ display: 'inline-block', float: 'right', paddingLeft: 8 }}>
               <button
-                style={{ fontSize: 13, padding: 11, float: 'right', background: '#0d7c66' }}
+                style={{ fontSize: 13, padding: 11, float: 'right', background: '#FCDE5A', color: 'black' }}
                 onClick={toggleEdit}
               >Edit</button>
             </div>

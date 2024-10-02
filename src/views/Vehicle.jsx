@@ -100,16 +100,16 @@ const DriverHistory = ({ p }) => {
 
   return (
     <div style={{ padding: p || 40, paddingTop: 10, fontSize: 13 }}>
-      <p style={{ textAlign: 'left' }}>Driver History</p>
-      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows which drivers are most frequently assigned to this vehicle.</p>
+      <p style={{ textAlign: 'left' }}>Fuel Consumption</p>
+      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows vehicle fuel consumption.</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <BarChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
           <Bar name='Driver' type="monotone" dataKey='c1' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white'>
-            <Label value={'Drivers'} offset={0} position={'insideBottom'}/>
+            <Label value={'Fuel Consumption'} offset={0} position={'insideBottom'}/>
           </XAxis>
-          <YAxis stroke='white' label={{ value: 'Assignments', angle: 270, position: 'insideLeft'}}/>
+          <YAxis stroke='white' label={{ value: 'Change in fuel', angle: 270, position: 'insideLeft'}}/>
           <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
           {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
         </BarChart>

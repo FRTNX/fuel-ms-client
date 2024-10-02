@@ -64,7 +64,7 @@ const VehicleData = ({ p }) => {
         secondary={7}
       />
       <VehicleItem
-        avatar={<BsFuelPumpFill style={{ background: 'red', color: 'black', borderRadius: 50, padding: 10 }} />}
+        avatar={<BsFuelPumpFill style={{ background: '#a04747', color: 'black', borderRadius: 50, padding: 10 }} />}
         primary={'Violations'}
         secondary={1}
       />
