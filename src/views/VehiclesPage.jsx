@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { random, VehicleBrand } from "../utils";
 
-import { registerVehicle, getVehicles, getVehicle } from '../api/api';
+import { registerVehicle, getVehicles, getVehicle, getFuelThreshold } from '../api/api';
 
 const LOCAL_VEHICLES = [
   {
@@ -69,7 +69,7 @@ const LOCAL_VEHICLES = [
   },
 ];
 
-const VehicleCard = ({ data, redirect }) => {
+const VehicleCard = ({ data, threshold, redirect }) => {
   const [vehicle, setVehicle] = useState(data);
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const VehicleCard = ({ data, redirect }) => {
         <p style={{ lineHeight: 1, paddingTop: 5 }}>Destination: {vehicle.destination}</p>
         <div style={{ lineHeight: 0, paddingBottom: 10 }}>
           <p style={{ display: 'inline-block' }}>Fuel: {' '}</p>
-          <p style={{ color: vehicle.fuel > 0.5 ? 'green' : '#c03131', display: 'inline-block', paddingLeft: 3 }}>{Number(vehicle.fuel * 100).toFixed(0)}%</p>
+          <p style={{ color: vehicle.fuel > threshold ? 'green' : '#c03131', display: 'inline-block', paddingLeft: 3 }}>{Number(vehicle.fuel * 100).toFixed(0)}%</p>
         </div>
       </div>
     </div>
@@ -209,12 +209,15 @@ const VehiclesPage = () => {
     message: '',
     color: 'green',
     show: false
-  })
+  });
+
+  const [threshold, setThreshold] = useState(0.4);
 
   const addColor = '#3c3d37';
 
   useEffect(() => {
     fetchVehicles();
+    fetchFuelThreshold();
   }, []);
 
   const fetchVehicles = async () => {
@@ -242,6 +245,13 @@ const VehiclesPage = () => {
     });
     console.log('consolidated: ', vehicleIds)
     return [...consolidated, ...local];
+  }
+
+  const fetchFuelThreshold = async () => {
+    const result = await getFuelThreshold();
+    if (result) {
+      setThreshold(Number(result.threshold))
+    }
   }
 
   const filterVehicles = (searchValue, active = activeVehicles, lowFuel = lowFuelVehicles) => {
@@ -375,7 +385,7 @@ const VehiclesPage = () => {
                     {
                       vehicles.length > 0 && vehicles.map((vehicle) => (
                         <div style={{ display: 'inline-block', width: '47%', padding: 10 }}>
-                          <VehicleCard data={vehicle} redirect={redirectTo} />
+                          <VehicleCard data={vehicle} redirect={redirectTo} threshold={threshold} />
                         </div>
                       ))
                     }
@@ -454,7 +464,7 @@ const VehiclesPage = () => {
                 {
                   vehicles.length > 0 && vehicles.map((vehicle) => (
                     <div style={{ padding: 10 }}>
-                      <VehicleCard data={vehicle} redirect={redirectTo} />
+                      <VehicleCard data={vehicle} redirect={redirectTo} threshold={threshold}/>
                     </div>
                   ))
                 }
