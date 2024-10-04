@@ -237,6 +237,22 @@ const getFuelThreshold = async () => {
   }
 };
 
+const getConsumptionHistory = async (license) => {
+  try {
+    const response = await fetch(`${config.baseUrl}/api/v0/vehicle/consumption?id=${license}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const pingSensors = async () => {
   try {
     const response = await fetch(`${config.baseUrl}/api/v0/sensors/ping`, {
@@ -267,5 +283,6 @@ export {
   updateEmailRecipient,
   removeEmailRecipient,
   getFuelThreshold,
-  updateFuelThreshold
+  updateFuelThreshold,
+  getConsumptionHistory
 };

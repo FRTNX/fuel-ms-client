@@ -19,7 +19,7 @@ import { VehicleBrand, generateData, Form } from '../utils';
 
 import MainLayout from '../layouts/MainLayout';
 
-import { getVehicle, getFuelHistory, updateVehicle, deleteVehicle } from '../api/api';
+import { getVehicle, getFuelHistory, updateVehicle, deleteVehicle, getConsumptionHistory } from '../api/api';
 import DeleteVehicleModal from '../components/DeleteVehicleModal';
 
 const offlineVehicle = {
@@ -53,7 +53,7 @@ const FuelHistory = ({ vehicle, p }) => {
   const pt = window.innerWidth > 500 ? 25 : 0;
   const lineWeight = 2;
 
-  const [data, setData] = useState(generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows))
+  const [data, setData] = useState(generateData(['fuel', 'c2', 'c3', 'c4', 'c5'], variation, rows))
 
   useEffect(() => {
     refresh();
@@ -68,7 +68,9 @@ const FuelHistory = ({ vehicle, p }) => {
 
   const refresh = async () => {
     const result = await getFuelHistory(vehicle)
-    setData(result)
+    if (result) {
+      setData(result)
+    }
   }
 
   return (
@@ -92,11 +94,28 @@ const FuelHistory = ({ vehicle, p }) => {
   )
 }
 
-const DriverHistory = ({ p }) => {
+const FuelConsumption = ({ vehicle, p }) => {
   const rows = window.innerWidth > 500 ? 15 : 7;
   const variation = window.innerWidth > 500 ? 15 : 6;
-  const data = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows);
+  const [data, setData] = useState(generateData(['diff'], variation, rows))
+
   const lineWeight = 2;
+
+  useEffect(() => {
+    refresh();
+    const refreshInterval = setInterval(() => {
+      refresh();
+    }, 1000 * 2);
+
+    return () => {
+      clearInterval(refreshInterval);
+    }
+  }, []);
+
+  const refresh = async () => {
+    const result = await getConsumptionHistory(vehicle)
+    setData(result)
+  }
 
   return (
     <div style={{ padding: p || 40, paddingTop: 10, fontSize: 13 }}>
@@ -104,7 +123,7 @@ const DriverHistory = ({ p }) => {
       <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows vehicle fuel consumption.</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <BarChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
-          <Bar name='Driver' type="monotone" dataKey='c1' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
+          <Bar name='Driver' type="monotone" dataKey='diff' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white'>
             <Label value={'Fuel Consumption'} offset={0} position={'insideBottom'}/>
@@ -250,7 +269,7 @@ const Vehicle = () => {
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
                   <FuelHistory vehicle={license}/>
-                  <DriverHistory />
+                  <FuelConsumption vehicle={license}/>
                 </div>
               </div>
             </div>
@@ -273,7 +292,7 @@ const Vehicle = () => {
                         </div>
                       </div>
                       <FuelHistory p={10} vehicle={license}/>
-                      <DriverHistory p={10} />
+                      <FuelConsumption p={10} vehicle={license} />
                       <div style={{ verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 5 }}>
                           {
