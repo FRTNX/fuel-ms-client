@@ -39,16 +39,16 @@ const MainLayout = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    pingSensors();
-    const sensorPingInterval = setInterval(() => {
-      pingSensors();
-    }, 1000 * 15);
+  // useEffect(() => {
+  //   pingSensors();
+  //   const sensorPingInterval = setInterval(() => {
+  //     pingSensors();
+  //   }, 1000 * 60);
 
-    return () => {
-      clearInterval(sensorPingInterval);
-    }
-  }, []);
+  //   return () => {
+  //     clearInterval(sensorPingInterval);
+  //   }
+  // }, []);
 
   const checkConnectivity = async () => {
     try {
