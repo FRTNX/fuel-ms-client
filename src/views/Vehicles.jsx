@@ -12,16 +12,15 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-import { FaCar } from 'react-icons/fa';
-import { GiMountainRoad } from 'react-icons/gi';
-import { BsFuelPumpFill } from 'react-icons/bs';
-import { SiEventstore } from 'react-icons/si';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+
+import Checkbox from 'react-custom-checkbox';
 
 import { CiSettings } from 'react-icons/ci';
 import { IoCarSport } from 'react-icons/io5';
 
 import logo from '../assets/images/logo-text.jpg';
-import { getFuelHistory, getVehicles } from '../api/api';
+import { getFuelHistory, getVehicles, getFuelThreshold } from '../api/api';
 import { random } from '../utils';
 
 
@@ -55,7 +54,7 @@ const VehicleItem = ({ avatar, primary, secondary, redirect, target, underline }
           </div>
           <div style={{ display: 'inline-block' }}>
             <p style={{ marginBottom: 0, lineHeight: 0.8, fontSize: 15 }}>{primary} <br />
-            <p style={{ color: 'grey', fontSize: 13}}>{secondary}</p></p>
+              <p style={{ color: 'grey', fontSize: 13 }}>{secondary}</p></p>
           </div>
         </div>
       </button>
@@ -70,7 +69,7 @@ const VehicleData = ({ p, redirect }) => {
   return (
     <div style={{ padding: 40, fontSize: 13, textAlign: 'left' }}>
       <VehicleItem
-        avatar={<IoCarSport size={35} style={{ color: 'white'}} />}
+        avatar={<IoCarSport size={35} style={{ color: 'white' }} />}
         primary={'Vehicles'}
         secondary={'Get detailed info about each vehicle...'}
         redirect={redirect}
@@ -89,7 +88,61 @@ const VehicleData = ({ p, redirect }) => {
   )
 }
 
-const VehicleChart = ({ vehicles, p }) => {
+const VehicleRadar = ({ vehicles, threshold }) => {
+  const [data, setData] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+  const fetchVehicles = async () => {
+    try {
+      const result = await getVehicles({});
+      if (result) {
+        const augmented = result.map((vehicle) => augment(vehicle))
+        console.log('aug:', augmented)
+        setData(augmented)
+        setData(result);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const augment = (vehicle) => {
+    vehicle.fuelThreshold = threshold * 100;
+    vehicle.fuel = vehicle.fuel * 100
+    return vehicle;
+  }
+
+  useEffect(() => {
+    const augmented = vehicles.map((vehicle) => augment(vehicle))
+    setData(augmented)
+
+    fetchVehicles();
+    const refreshInterval = setInterval(() => {
+      fetchVehicles();
+    }, 1000 * 4);
+
+    return () => {
+      clearInterval(refreshInterval);
+    }
+  }, []);
+
+  return (
+    <div style={{ fontSize: 13 }}>
+      <ResponsiveContainer width="100%" height={500}>
+        <RadarChart cx="50%" cy="50%" outerRadius="70%" data={data}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="license" />
+          <PolarRadiusAxis angle={30} domain={[0, 100]} />
+          <Radar name="Current Fuel" dataKey="fuel" stroke="#FCDE5A" fill="#FCDE5A" fillOpacity={0.8} />
+          <Radar name="Fuel Threshold" dataKey="fuelThreshold" stroke="#000" fill="#000" fillOpacity={0.9} />
+          <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
+  )
+}
+
+const VehicleChart = ({ vehicles, setVehicles, p }) => {
   const rows = window.innerWidth > 500 ? 10 : 5;
   const variation = window.innerWidth > 500 ? 15 : 6;
   const caption = window.innerWidth > 500 ? true : false;
@@ -100,6 +153,7 @@ const VehicleChart = ({ vehicles, p }) => {
   const dummyData = generateData(['c1', 'c2', 'c3', 'c4', 'c5'], variation, rows)
 
   const [loaded, setLoaded] = useState(false);
+
 
   useEffect(() => {
     refresh();
@@ -117,33 +171,63 @@ const VehicleChart = ({ vehicles, p }) => {
       // console.log(data``)
       const result = await getFuelHistory()
       if (result) {
-        setData(result);
+        const augmented = result.map((vehicle) => augment(vehicle))
+        setData(augmented);
         setLoaded(true);
       }
     } catch (error) {
       console.log(error)
       setLoaded(false);
     }
-  }
+  };
+
+  const augment = (vehicle) => {
+    vehicle.visible = true;
+    return vehicle;
+  };
+
+  const toggleVisibility = (v) => {
+    const updatedVehicles = vehicles.map((vehicle) => {
+      if (vehicle.license === v.license) {
+        if (vehicle.visible) {
+          vehicle.visible = false;
+          return vehicle;
+        } else {
+          vehicle.visible = true;
+          return vehicle;
+        }
+      } else {
+        return vehicle;
+      }
+    })
+    console.log('updated vehicles:', updatedVehicles)
+    setVehicles(updatedVehicles)
+  };
 
   return (
     <div style={{ padding: p || 40, fontSize: 13 }}>
       <div style={{ paddingLeft: 20 }}>
-        <p style={{ textAlign: 'left' }}>Real-Time Fuel Tracking</p>
-        <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Track fuel levels for all or selected vehicles.</p>
+        <p style={{ textAlign: 'left' }}>Real-Time Fuel Monitoring</p>
+        <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Track fuel levels for all or selected vehicles. Hover
+          over a datapoint to see more details. Check or uncheck a vehicles license plate to include
+          or exclude it from observation.</p>
       </div>
       {
         loaded && (
           <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
             <LineChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
               {
-                vehicles.map((vehicle, index) => (<Line name={vehicle.license} type="monotone" dataKey={vehicle.license} stroke={palette[index]} strokeWidth={lineWeight} />))
+                vehicles.map((vehicle, index) => {
+                  if (vehicle.visible) {
+                    return <Line name={vehicle.license} type="monotone" dataKey={vehicle.license} stroke={palette[index]} strokeWidth={lineWeight} />
+                  }
+                })
               }
               <CartesianGrid stroke="grey" strokeDasharray="3 3" />
               <XAxis stroke='white'>
-            {/* <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/> */}
-          </XAxis>
-          <YAxis stroke='white'/>
+                {/* <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/> */}
+              </XAxis>
+              <YAxis stroke='white' />
               <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
               {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
             </LineChart>
@@ -168,6 +252,19 @@ const VehicleChart = ({ vehicles, p }) => {
           </ResponsiveContainer>
         )
       }
+      <div style={{ paddingLeft: window.innerWidth > 500 ? 20 : 32, paddingTop: 10 }}>
+        {
+          loaded && vehicles.map((vehicle) => (
+            <div style={{ paddingBottom: 10, display: 'inline-block', width: '30%' }}>
+              <Checkbox
+                label={vehicle.license}
+                checked={vehicle.visible}
+                onChange={() => toggleVisibility(vehicle)}
+              />
+            </div>
+          ))
+        }
+      </div>
     </div>
   )
 }
@@ -176,25 +273,8 @@ const VehicleTable = ({ data, mobile }) => {
   console.log('got tabledata:', data)
   const [vehicles, setVehicles] = useState(data);
 
-   const [dummyData, setDummyData] = useState([
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-    { name: 'Volvo 2020', license: '445-RTT', fuel: 0.73 },
-  ]);
-
-   useEffect(() => {
+  useEffect(() => {
+    fetchThreshold();
     fetchVehicles();
     const refreshInterval = setInterval(() => {
       fetchVehicles();
@@ -216,6 +296,16 @@ const VehicleTable = ({ data, mobile }) => {
     }
   };
 
+  const fetchThreshold = async () => {
+    try {
+      const result = await getFuelThreshold();
+      if (result) {
+        setThreshold(result);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div>
       <table style={{
@@ -245,7 +335,8 @@ const VehicleTable = ({ data, mobile }) => {
 
 const Vehicles = () => {
   const [redirect, setRedirect] = useState({ triggered: false, target: '' });
-  const [vehicles, setVehicles] = useState([])
+  const [vehicles, setVehicles] = useState([]);
+  const [threshold, setThreshold] = useState(0.4);
 
   useEffect(() => {
     fetchVehicles();
@@ -255,7 +346,11 @@ const Vehicles = () => {
     try {
       const result = await getVehicles({});
       if (result) {
-        setVehicles(result);
+        const augmented = result.map((vehicle) => {
+          vehicle.visible = true;
+          return vehicle;
+        })
+        setVehicles(augmented);
       }
     } catch (error) {
       console.log(error)
@@ -284,16 +379,15 @@ const Vehicles = () => {
               </p>
 
               <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top', paddingTop: 50 }}>
-                {/* <VehicleTable /> */}
                 <div style={{ paddingLeft: 40 }}>
-                  <div style={{ background: '#100f0f', borderRadius: 15, width: '90%', height: 600 }}>
-
+                  <div style={{ background: '#100f0f', borderRadius: 15, width: '90%', height: 550 }}>
+                    <VehicleRadar vehicles={vehicles} threshold={threshold} />
                   </div>
                 </div>
 
               </div>
               <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
-                <VehicleChart vehicles={vehicles} />
+                <VehicleChart vehicles={vehicles} setVehicles={setVehicles} p={10} />
               </div>
             </div>
           </div>
@@ -310,9 +404,15 @@ const Vehicles = () => {
             <div style={{ verticalAlign: 'top', paddingBottom: 0 }}>
               <VehicleChart vehicles={vehicles} p={0.1} />
             </div>
-            <div style={{ paddingTop: 20, paddingLeft: 15 }}>
-              <VehicleTable mobile={true} data={vehicles} />
+            <div style={{ padding: 10, paddingTop: 20,  paddingBottom: 40 }}>
+              <div style={{ background: '#121212', borderRadius: 15, paddingBottom: 10 }}>
+              <VehicleRadar vehicles={vehicles} threshold={threshold} />
+              </div>
             </div>
+
+            {/* <div style={{ paddingTop: 20, paddingLeft: 15 }}>
+              <VehicleTable mobile={true} data={vehicles} />
+            </div> */}
             <div style={{ verticalAlign: 'top', textAlign: 'left' }}>
               <VehicleData redirect={redirectTo} />
             </div>

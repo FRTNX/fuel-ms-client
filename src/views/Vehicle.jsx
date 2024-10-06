@@ -120,7 +120,8 @@ const FuelConsumption = ({ vehicle, p }) => {
   return (
     <div style={{ padding: p || 40, paddingTop: 10, fontSize: 13 }}>
       <p style={{ textAlign: 'left' }}>Fuel Consumption</p>
-      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows vehicle fuel consumption.</p>
+      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows the change in fuel per measurement for this vehicle. This helps identify anomalies as they tend 
+      to stick out like sore thumbs :)</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <BarChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
           <Bar name='Driver' type="monotone" dataKey='diff' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />

@@ -64,14 +64,15 @@ input {
 }
 
 @media (prefers-color-scheme: light) {
-  /* :root {
-    color: #000000;
-    background-color: #000000;
-  }
-  a:hover {
+  /* a:hover {
     color: #747bff;
-  }
+  } */
   button {
     background-color: #1a1a1a;
-  } */
+    color: white;
+  }
+  input {
+    color: white;
+    background-color: grey;
+  }
 }
