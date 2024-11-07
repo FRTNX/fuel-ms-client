@@ -46,7 +46,6 @@ const palettes = {
 
 const palette = Object.values(palettes.defconOne)
 
-
 const FuelHistory = ({ vehicle, p }) => {
   const rows = window.innerWidth > 500 ? 20 : 15;
   const variation = window.innerWidth > 500 ? 10 : 6;
@@ -83,9 +82,9 @@ const FuelHistory = ({ vehicle, p }) => {
           <Area name={vehicle} type="monotone" dataKey='fuel' stroke="#f5f7f8" strokeWidth={lineWeight} fill={palette[0]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white'>
-            <Label value={'Sensor Readings'} offset={0} position={'insideBottom'}/>
+            <Label value={'Sensor Readings'} offset={0} position={'insideBottom'} />
           </XAxis>
-          <YAxis stroke='white' label={{ value: 'Fuel (%)', angle: 270, position: 'insideLeft'}}/>
+          <YAxis stroke='white' label={{ value: 'Fuel (%)', angle: 270, position: 'insideLeft' }} />
           <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
           {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
         </AreaChart>
@@ -120,16 +119,16 @@ const FuelConsumption = ({ vehicle, p }) => {
   return (
     <div style={{ padding: p || 40, paddingTop: 10, fontSize: 13 }}>
       <p style={{ textAlign: 'left' }}>Fuel Consumption</p>
-      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows the change in fuel per measurement for this vehicle. This helps identify anomalies as they tend 
-      to stick out like sore thumbs :)</p>
+      <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Shows the change in fuel per measurement for this vehicle. This helps identify anomalies as they tend
+        to stick out like sore thumbs :)</p>
       <ResponsiveContainer width='100%' height={300} style={{ background: 'black', borderRadius: 15 }}>
         <BarChart data={data} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>
           <Bar name='Driver' type="monotone" dataKey='diff' stroke={palette[1]} strokeWidth={lineWeight} fill={palette[1]} />
           <CartesianGrid stroke="grey" strokeDasharray="3 3" />
           <XAxis stroke='white'>
-            <Label value={'Fuel Consumption'} offset={0} position={'insideBottom'}/>
+            <Label value={'Fuel Consumption'} offset={0} position={'insideBottom'} />
           </XAxis>
-          <YAxis stroke='white' label={{ value: 'Change in fuel', angle: 270, position: 'insideLeft'}}/>
+          <YAxis stroke='white' label={{ value: 'Change in fuel', angle: 270, position: 'insideLeft' }} />
           <Tooltip contentStyle={{ background: 'black', borderRadius: 10, border: 'none' }} />
           {/* <Legend formatter={(value, entry, index) => <span style={{ color: 'grey' }}>{value}</span>} /> */}
         </BarChart>
@@ -261,7 +260,7 @@ const Vehicle = () => {
                           <div style={{ background: 'black', borderRadius: 10, padding: 5, paddingBottom: 15, paddingLeft: 10, paddingRight: 10 }}>
                             <p style={{ textAlign: 'left', fontSize: 14, }}>Delete Vehicle</p>
                             <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Delete this vehicle along with all of it's historical data.</p>
-                            <DeleteVehicleModal cb={remove}/>
+                            <DeleteVehicleModal cb={remove} />
                           </div>
                         </div>
                       </div>
@@ -269,8 +268,8 @@ const Vehicle = () => {
                   </div>
                 </div>
                 <div style={{ display: 'inline-block', width: '50%', verticalAlign: 'top' }}>
-                  <FuelHistory vehicle={license}/>
-                  <FuelConsumption vehicle={license}/>
+                  <FuelHistory vehicle={license} />
+                  <FuelConsumption vehicle={license} />
                 </div>
               </div>
             </div>
@@ -292,12 +291,18 @@ const Vehicle = () => {
                           </div>
                         </div>
                       </div>
-                      <FuelHistory p={10} vehicle={license}/>
+                      <FuelHistory p={10} vehicle={license} />
                       <FuelConsumption p={10} vehicle={license} />
                       <div style={{ verticalAlign: 'top' }}>
                         <div style={{ paddingRight: 5 }}>
                           {
-                            !data && (<Form formData={localData} inline={true} width={'100%'} />)
+                            !data && (
+                              <Form
+                                formData={localData}
+                                inline={true}
+                                width={'100%'}
+                              />
+                            )
                           }
                           {
                             data && (<Form formData={data} inline={true} width={'100%'} submitForm={submit} />)
@@ -310,7 +315,7 @@ const Vehicle = () => {
                           <div style={{ background: '#1d1b1b', borderRadius: 10, padding: 5, paddingBottom: 15, paddingLeft: 10, paddingRight: 10 }}>
                             <p style={{ textAlign: 'left', fontSize: 14, }}>Delete Vehicle</p>
                             <p style={{ textAlign: 'left', fontSize: 13, color: 'grey' }}>Delete this vehicle along with all of it's historical data.</p>
-                            <DeleteVehicleModal cb={remove}/>
+                            <DeleteVehicleModal cb={remove} />
                           </div>
                         </div>
                       </div>

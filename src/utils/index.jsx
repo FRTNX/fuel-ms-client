@@ -90,9 +90,9 @@ const VehicleBrand = ({ brand, size }) => {
 
 const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inline, editMode, toggle }) => {
   const ORIGINAL_DATA = { ...formData };  // helps reset the form if a user cancels an edit 
-  const togglable = toggle;
+  const togglable = toggle || true;
   const [data, setData] = useState(formData);
-  const [edit, setEdit] = useState(editMode);
+  const [edit, setEdit] = useState(editMode || false);
 
   /**
    * reset form fields
@@ -122,6 +122,7 @@ const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inl
   };
 
   const toggleEdit = () => {
+    console.log('toggling edit from:', edit)
     if (togglable) {
       if (edit) {
         reset();

@@ -10,7 +10,7 @@ import {
   updateFuelThreshold
 } from '../api/api';
 
-import { Form } from '../utils';
+// import { Form } from '../utils';
 
 import DeleteEmailModal from '../components/DeleteEmailModal';
 
@@ -92,6 +92,109 @@ const EmailRecipient = ({ recipient }) => {
   )
 }
 
+const Form = ({ formData, width, display, submitForm, submitBtn, toggleForm, inline, editMode, toggle }) => {
+  const ORIGINAL_DATA = { ...formData };  // helps reset the form if a user cancels an edit 
+  const togglable = toggle || true;
+  const [data, setData] = useState(formData);
+  const [edit, setEdit] = useState(editMode || false);
+
+  /**
+   * reset form fields
+   */
+  const reset = () => {
+    const copy = { ...data }
+    Object.keys(data).map((key) => copy[key].value = ORIGINAL_DATA[key].value);
+    setData(copy);
+  }
+
+  const submit = () => {
+    const params = Object.keys(data).reduce((partParams, key) => ({ ...partParams, [key]: data[key].value }), {});
+    submitForm(params);
+    reset();
+    toggleForm();
+  };
+
+  const cancel = () => {
+    reset();
+    toggleForm();
+  };
+
+  const handleChange = (event, target) => {
+    const copy = { ...data };
+    copy[target].value = event.target.value
+    setData(copy);
+  };
+
+  const toggleEdit = () => {
+    console.log('toggling edit from:', edit)
+    if (togglable) {
+      if (edit) {
+        reset();
+        se;
+      } else {
+        setEdit(true);
+      }
+    }
+  }
+
+  return (
+    <div style={{ paddingTop: 40 }}>
+      <div>
+        {
+          Object.keys(data).map((key) => (
+            <div style={{ width: width || '50%', display: display || 'inline-block', verticalAlign: 'top', textAlign: 'left', paddingBottom: 10 }}>
+              <div style={{ paddingLeft: 10, paddingRight: 10 }}>
+                <label htmlFor={data[key].label} style={{ fontSize: 13 }}>{data[key].label}</label>
+                {
+                  !inline && (<br />)
+                }
+                <input
+                  type={data[key].type || 'text'}
+                  id={data[key].label}
+                  style={{ width: '100%', height: 35, border: 'none', borderRadius: 5, paddingLeft: 5 }}
+                  value={data[key].value}
+                  onChange={(e) => handleChange(e, key)}
+                  disabled={!edit}
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div style={{ paddingTop: 5 }}>
+        {
+          edit && (
+            <div>
+              <div style={{ display: 'inline-block', float: 'right', paddingLeft: 8 }}>
+                <button
+                  style={{ fontSize: 13, padding: 11, float: 'right', background: '#FCDE5A', color: 'black', ...submitBtn }}
+                  onClick={submit}
+                >Submit</button>
+              </div>
+              <div style={{ display: 'inline-block', float: 'right' }}>
+                <button
+                  style={{ fontSize: 13, padding: 11, float: 'right', background: 'grey', color: 'white' }}
+                  onClick={cancel}
+                >Cancel</button>
+              </div>
+            </div>
+          )
+        }
+        {
+          !edit && (
+            <div style={{ display: 'inline-block', float: 'right', paddingLeft: 8 }}>
+              <button
+                style={{ fontSize: 13, padding: 11, float: 'right', background: '#FCDE5A', color: 'black' }}
+                onClick={toggleEdit}
+              >Edit</button>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  )
+}
+
 const Settings = () => {
   const [count, setCount] = useState(0)
   const p = window.innerWidth > 500 ? 0 : 10;
@@ -130,7 +233,6 @@ const Settings = () => {
 
   const fetchEmailRecipients = async () => {
     const result = await getEmailRecipients();
-    console.log('got email recipients:', result)
     if (result) {
       setEmailRecipients(result)
     }
@@ -146,14 +248,12 @@ const Settings = () => {
 
   const submitRecipient = async (recipient) => {
     const params = { ...recipient };
-    console.log('creating recipient: ', params)
     await addEmailRecipient(params);
     await fetchEmailRecipients();
   }
 
   const unsubscribeRecipient = async (recipientId) => {
     removeEmailRecipient(recipientId);
-
   };
 
   const toggleEdit = () => {
@@ -165,6 +265,7 @@ const Settings = () => {
   }
 
   const toggleForm = () => {
+    console.log('Toggling settings form from state:', displayForm)
     if (displayForm) {
       setDisplayForm(false)
     } else {
@@ -336,6 +437,8 @@ const Settings = () => {
                             submitForm={submitRecipient}
                             submitBtn={{ background: '#FCDE5A', color: 'black' }}
                             toggleForm={toggleForm}
+                            toggle={false}
+                            editMode={true}
                           />
                         )
                       }
